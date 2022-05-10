@@ -2,7 +2,7 @@
 #set -e 
 if  ! [[ $( alias | grep -q 'idk=' ) ]];then
     cd ~/
-    cat << Here1234 >>.bash_profile
+    cat >>.bash_profile << Here1234 
     alias idk='$0'
 Here1234
 
