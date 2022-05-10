@@ -1,5 +1,13 @@
 #! /bin/bash
 #set -e 
+if  ! [[ $( alias | grep -q 'idk=' ) ]];then
+    cd ~/
+    cat << Here1234 >>.bash_profile
+    alias idk='$0'
+Here1234
+
+fi
+
 echo "git start executed"
 
 function do_push () {
@@ -69,7 +77,7 @@ do
 
 done
 
-echo "gitstart closed"
+echo "idk closed"
 
          
 
