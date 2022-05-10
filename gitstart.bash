@@ -12,24 +12,59 @@ echo "git start executed"
 
 function do_push () {
     echo "start pushing..."
-    cd ~/Desktop/.gitprocess/gitprocessof$1/ #e
-    chmod +x gpsh_$1.bash 
-    ./gpsh_$1.bash 
+    if [[ $1=='all' ]]; then
+        for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
+            do
+            cd ~/Desktop/.gitprocess/gitprocessof$i/ #e
+            chmod +x gpsh_$i.bash 
+            ./gpsh_$i.bash
+            done
+    else
+        cd ~/Desktop/.gitprocess/gitprocessof$1/ #e
+            chmod +x gpsh_$1.bash 
+            ./gpsh_$1.bash
+    fi
+
     echo "push completed"
+    
     return
 }
 function do_pull () {
     echo "start pulling..."
-    cd ~/Desktop/.gitprocess/gitprocessof$1/ #e
-    chmod +x gpul_$1.bash 
-    ./gpul_$1.bash
+    if [[ $1=='all' ]];then
+        for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
+            do
+            cd ~/Desktop/.gitprocess/gitprocessof$i/ #e
+            chmod +x gpul_$i.bash 
+            ./gpul_$i.bash
+            done
+    else
+        cd ~/Desktop/.gitprocess/gitprocessof$1/ #e
+            chmod +x gpul_$1.bash 
+            ./gpul_$1.bash
+    fi
+
     echo "pull completed"
     return
 }
 function delete (){
-    echo "start deleting..."
-    cd ~/Desktop/.gitprocess/
-    rm -rf dir gitprocessof$1 #e
+
+   
+    if [[ $1=='all' ]];then
+        for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
+            do
+            cd ~/Desktop/.gitprocess/
+            echo "start deleting..."
+            rm -rf dir gitprocessof$i #e
+            done
+    else
+        
+        cd ~/Desktop/.gitprocess/
+        echo "start deleting..." 
+        rm -rf dir gitprocessof$1 #e
+    
+    fi
+
     echo "successfully deleted"
     return
 }
