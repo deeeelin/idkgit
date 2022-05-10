@@ -32,7 +32,7 @@ read -p "tar branch" tarbranch
 git checkout \$ownbranch
 git remote add $rname $url      #error when remote node is exist
 git add --all
-git commit -m "commit on $(date)"
+git commit -m "commit on \$(date)"
 git pull $rname \$tarbranch
 git push $rname \${ownbranch}:\${tarbranch}
 HERE
