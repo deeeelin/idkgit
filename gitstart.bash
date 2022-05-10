@@ -3,7 +3,7 @@ set -e
 if  ! [[ $( alias | grep -q 'idk=' ) ]];then
     cd ~/
     cat >>.bash_profile << Here1234 
-    alias idk='$0'
+    alias idk="$0"
 Here1234
 
 fi
@@ -12,16 +12,16 @@ echo "git start executed"
 
 function do_push () {
     echo "start pushing..."
-    cd ~/Desktop/.gitprocess/gitprocessof$1/
-    chmod +x gpsh_$1.bash
+    cd ~/Desktop/.gitprocess/gitprocessof$1/ #e
+    chmod +x gpsh_$1.bash 
     ./gpsh_$1.bash 
     echo "push completed"
     return
 }
 function do_pull () {
     echo "start pulling..."
-    cd ~/Desktop/.gitprocess/gitprocessof$1/
-    chmod +x gpul_$1.bash
+    cd ~/Desktop/.gitprocess/gitprocessof$1/ #e
+    chmod +x gpul_$1.bash 
     ./gpul_$1.bash
     echo "pull completed"
     return
@@ -29,7 +29,7 @@ function do_pull () {
 function delete (){
     echo "start deleting..."
     cd ~/Desktop/.gitprocess/
-    rm -rf dir gitprocessof$1
+    rm -rf dir gitprocessof$1 #e
     echo "successfully deleted"
     return
 }
@@ -44,8 +44,33 @@ function list () {
     echo
     echo
     
-    return 
+    return
+}
+function jumpy () {
 
+    declare -a arr
+    declare -a routes
+    declare -i i
+    cd ~/Desktop/.gitprocess/
+    arr=$(find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
+
+    #echo ${arr[@]}
+
+    for (( i=0; i<${#arr[@]} ; i++ ))
+    do 
+    routes[${arr[i]}]=$(find . -name gpsh_${arr[i]}.bash | grep 'cd'|sed -e 's/^..//')
+    done
+    select route in arr
+    do 
+    echo "您鍵入的編號為$REPLY,選擇了 ${route}"
+
+    cd routes[$route]
+    
+    done
+
+    kill -Term $$
+    
+    return 
 }
 while ((1)) 
 do
@@ -71,12 +96,13 @@ do
         #  *will expand first and if there are two thing that fits,
         #  then there will be two arg putted in find,which will cause error
 
-        out) break ;;
+        jump) jumpy ;;
+
+        out) cd ~;break ;;
 
     esac
 
 done
-
 echo "idk closed"
 
          
