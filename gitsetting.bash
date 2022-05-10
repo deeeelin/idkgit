@@ -42,8 +42,8 @@ cat >& 13 << HERE23
 #! /bin/bash
 #set -e
 cd ${route}
-read -p "own branch" ownbranch
-read -p "tar branch" tarbranch
+read -p "own branch: " ownbranch
+read -p "tar branch: " tarbranch
 git checkout \${ownbranch}
 git pull $rname \${tarbranch}
 HERE23
