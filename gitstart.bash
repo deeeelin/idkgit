@@ -1,5 +1,5 @@
 #! /bin/bash
-#set -e 
+set -e 
 if  ! [[ $( alias | grep -q 'idk=' ) ]];then
     cd ~/
     cat >>.bash_profile << Here1234 
@@ -14,7 +14,7 @@ function do_push () {
     echo "start pushing..."
     cd ~/Desktop/.gitprocess/gitprocessof$1/
     chmod +x gpsh_$1.bash
-    ./gpsh_$1.bash
+    ./gpsh_$1.bash 
     echo "push completed"
     return
 }
@@ -62,7 +62,7 @@ do
 
         pull) read -p "proj name: " ; do_pull $REPLY ;;
 
-        delete) read -p "proj name" ; delete $REPLY ;;
+        delete) read -p "proj name: " ; delete $REPLY ;;
 
         list) list ;;  
 

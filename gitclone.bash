@@ -1,5 +1,5 @@
 #! /bin/bash
-#set -e
+set -e
 read -p "clone where? " url
 read -p "create dir? yes or no? "
  
