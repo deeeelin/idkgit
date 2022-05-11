@@ -186,7 +186,7 @@ do
 
     esac
 
-done
+done 
 echo "idk closed"
 
          
