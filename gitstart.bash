@@ -58,6 +58,7 @@ function do_pull () {
             chmod +x gpul_$i.bash 
             ./gpul_$i.bash
             cond=$?
+            echo "$cond"
             if [[ $cond -eq 87 ]];then
                 echo "$i pull failed" 
                 echo "no previous reference for auto"
