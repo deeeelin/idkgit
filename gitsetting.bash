@@ -87,7 +87,7 @@ git checkout \${ownbranch} 2>/dev/null
 set -e
 git pull $rname \${tarbranch} 
 
-echo "\${ownbranch} \${tarbranch}"> ginfo_${name}.txt
+echo "\${ownbranch} \${tarbranch}" > ginfo_${name}.txt
 
 
 Here
