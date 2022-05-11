@@ -34,14 +34,14 @@ pushmode="normal"
 read -a previous < ginfo_${name}.txt
 cd ${route}
 
-if [[ pushmode == "auto" && "${previous[*]}" != '_nobranch _nobranch' ]] ;then
+if [[ \${pushmode} == "auto" && "${previous[*]}" != '_nobranch _nobranch' ]] ;then
 
     read ownbranch < \${previous[0]}
     read tarbranch < \${previous[1]}
 
-elif [[ pushmode == "auto" && "${previous[*]}" == '_nobranch _nobranch' ]];then
+elif [[ \${pushmode} == "auto" && "${previous[*]}" == '_nobranch _nobranch' ]];then
 
-    exit 1
+    exit 87
 
 else
     read -p "own branch" ownbranch 
@@ -54,7 +54,7 @@ git checkout \$ownbranch 2>/dev/null
 git remote add $rname $url  2>/dev/null   #error when remote node is exist
 
 git add --all 
-set -e
+set -e #every git push will change DS store ,so you can pull cand push without changing
 git commit -m "commit on \$(date)" 
 git pull $rname \$tarbranch
 git push $rname \${ownbranch}:\${tarbranch}
@@ -63,18 +63,19 @@ Here
 
 cat  >& 13  <<Here 
 #! /bin/bash
-read previous<ginfo_${name}.txt
-pullmode=normal
+pullmode="normal"
+read -a previous < ginfo_${name}.txt
+
 
 cd ${route}
-if [[ pullmode == "auto" && "${previous[*]}" !='_nobranch _nobranch' ]];then
+if [[ \${pullmode} == "auto" && "${previous[*]}" != '_nobranch _nobranch' ]];then
 
     read ownbranch < \${previous[0]}
     read tarbranch < \${previous[1]}
 
-elif [[ pullmode == "auto" && "${previous[*]}" == '_nobranch _nobranch' ]];then #在if 判斷式中一個變數中有空格在錢錢符號外圍要加上雙引號
+elif [[ \${pullmode} == "auto" && "${previous[*]}" == '_nobranch _nobranch' ]];then #在if 判斷式中一個變數中有空格在錢錢符號外圍要加上雙引號
 
-    exit 1
+    exit 87
 
 else
 

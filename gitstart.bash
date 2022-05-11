@@ -1,5 +1,5 @@
-#! /bin/bash
-set -e 
+#! /bin/bash #possible error excluded
+#set -e  #這裏架set -e只要子程式出錯，這個也會跳出去
 if  ! [[ $( alias | grep -q 'idk=' ) ]];then
     cd ~/
     cat >>.bash_profile << Here1234 
@@ -16,20 +16,30 @@ function do_push () {
     if [[ "$1" == 'all' ]]; then #not yet apply auto to own and tar branch
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
-            cd ~/Desktop/.gitprocess/gitprocessof$i/ #e
-            sed -i 's/pushmode=normal/pushmode=auto/' gpsh_$i.bash
+            cd ~/Desktop/.gitprocess/gitprocessof$i/ 
+            sed -i '' 's/pushmode="normal"/pushmode="auto"/' gpsh_$i.bash
             chmod +x gpsh_$i.bash 
             ./gpsh_$i.bash
-            if [[ $? -eq 1 ]];then
+            if [[ $? -eq 87 ]];then
                 echo "$1 push failed" 
                 echo "no previous reference for auto"
+            elif [[ $? -eq 1 ]];then
+                echo "$1 push failed" 
             fi
-            sed -i 's/pushmode=auto/pushmode=normal/' gpsh_$i.bash
+            sed -i '' 's/pushmode="auto"/pushmode="normal"/' gpsh_$i.bash
             done
     else
-        cd ~/Desktop/.gitprocess/gitprocessof$1/ #e
+        cd ~/Desktop/.gitprocess/gitprocessof$1/ #2>/dev/null
+            if  [[ $? -eq 1 ]];then 
+                echo "push fail,no this dir" 
+                return 
+            fi
             chmod +x gpsh_$1.bash 
             ./gpsh_$1.bash
+            if [[ $? -eq 1 ]];then
+                echo "$1 push failed" 
+                return
+            fi
     fi
 
     echo "push completed"
@@ -43,21 +53,27 @@ function do_pull () {
 
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
-            cd ~/Desktop/.gitprocess/gitprocessof$i/ #e
-            sed -i 's/pullmode=normal/pullmode=auto/' gpsh_$i.bash
+            cd ~/Desktop/.gitprocess/gitprocessof$i/ 
+            sed -i 's/pullmode="normal"/pullmode="auto"/' gpsh_$i.bash
             chmod +x gpul_$i.bash 
             ./gpul_$i.bash
-            if [[ $? -eq 1 ]];then
-                echo "$1 push failed" 
+            if [[ $? -eq 87 ]];then
+                echo "$1 pull failed" 
                 echo "no previous reference for auto"
+            elif [[ $? -eq 1 ]];then
+                echo "$1 pull failed" 
             fi
-            sed -i 's/pullmode=auto/pullmode=normal/' gpsh_$i.bash
+            sed -i 's/pullmode="auto"/pullmode="normal"/' gpsh_$i.bash
             done
 
     else
         cd ~/Desktop/.gitprocess/gitprocessof$1/ #e
             chmod +x gpul_$1.bash 
             ./gpul_$1.bash
+            if [[ $? -eq 1 ]];then
+                echo "$1 pull failed" 
+                return
+            fi
             
 
     fi
@@ -79,7 +95,12 @@ function delete (){ #feature succeed
         
         cd ~/Desktop/.gitprocess/
         echo "start deleting..." 
-        rm -rf dir gitprocessof$1 #e
+        rm -rf dir gitprocessof$1
+        if ! [[ $? -eq 0 ]];then 
+                echo "delete fail,no this dir" 
+                return 
+        fi
+
     
     fi
 
@@ -152,6 +173,8 @@ do
         jump) jumpy ;;
 
         out) cd ~ ; break ;;
+
+        *) echo "mode not found" ;;
 
     esac
 
