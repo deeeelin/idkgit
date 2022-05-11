@@ -20,10 +20,12 @@ function do_push () {
             sed -i '' 's/pushmode="normal"/pushmode="auto"/' gpsh_$i.bash
             chmod +x gpsh_$i.bash 
             bash -x ./gpsh_$i.bash
-            if [[ $? -eq 87 ]];then
+            cond=$?
+            echo "this is fucking $cond"
+            if [[ $cond -eq 87 ]];then
                 echo "$1 push failed" 
                 echo "no previous reference for auto"
-            elif [[ $? -eq 1 ]];then
+            elif [[ $cond -eq 1 ]];then
                 echo "$i push failed" 
             fi
             sed -i '' 's/pushmode="auto"/pushmode="normal"/' gpsh_$i.bash
