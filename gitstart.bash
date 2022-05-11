@@ -12,12 +12,19 @@ echo "git start executed"
 
 function do_push () {
     echo "start pushing..."
-    if [[ $1=='all' ]]; then
+    echo "$1"
+    if [[ "$1" == 'all' ]]; then #not yet apply auto to own and tar branch
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
             cd ~/Desktop/.gitprocess/gitprocessof$i/ #e
+            sed -i 's/pushmode=normal/pushmode=auto/' gpsh_$i.bash
             chmod +x gpsh_$i.bash 
             ./gpsh_$i.bash
+            if [[ $? -eq 1 ]];then
+                echo "$1 push failed" 
+                echo "no previous reference for auto"
+            fi
+            sed -i 's/pushmode=auto/pushmode=normal/' gpsh_$i.bash
             done
     else
         cd ~/Desktop/.gitprocess/gitprocessof$1/ #e
@@ -31,26 +38,37 @@ function do_push () {
 }
 function do_pull () {
     echo "start pulling..."
-    if [[ $1=='all' ]];then
+
+    if [[ $1 == 'all' ]];then
+
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
             cd ~/Desktop/.gitprocess/gitprocessof$i/ #e
+            sed -i 's/pullmode=normal/pullmode=auto/' gpsh_$i.bash
             chmod +x gpul_$i.bash 
             ./gpul_$i.bash
+            if [[ $? -eq 1 ]];then
+                echo "$1 push failed" 
+                echo "no previous reference for auto"
+            fi
+            sed -i 's/pullmode=auto/pullmode=normal/' gpsh_$i.bash
             done
+
     else
         cd ~/Desktop/.gitprocess/gitprocessof$1/ #e
             chmod +x gpul_$1.bash 
             ./gpul_$1.bash
+            
+
     fi
 
     echo "pull completed"
     return
 }
-function delete (){
+function delete (){ #feature succeed
 
    
-    if [[ $1=='all' ]];then
+    if [[ $1 == 'all' ]];then
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
             cd ~/Desktop/.gitprocess/
@@ -133,7 +151,7 @@ do
 
         jump) jumpy ;;
 
-        out) cd ~;break ;;
+        out) cd ~ ; break ;;
 
     esac
 
