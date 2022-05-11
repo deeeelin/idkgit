@@ -24,6 +24,7 @@ touch gpul_${name}.bash
 echo "_nobranch _nobranch" > ginfo_${name}.txt #written into file is disable when using echo to a bash document
 exec 12>gpsh_${name}.bash
 exec 13>gpul_${name}.bash
+exec 14>ginfo_${name}.txt
 
 cat  >& 12 <<Here
 #! /bin/bash
@@ -57,7 +58,7 @@ set -e #every git push will change DS store ,so you can pull cand push without c
 git commit -m "commit on \$(date)" 
 git pull $rname \$tarbranch 
 git push $rname \${ownbranch}:\${tarbranch}
-echo "\${ownbranch} \${tarbranch}" >ginfo_${name}.txt
+echo "\${ownbranch} \${tarbranch}" >& 14
 Here
 
 cat  >& 13  <<Here 
@@ -87,8 +88,7 @@ git checkout \${ownbranch} 2>/dev/null
 set -e
 git pull $rname \${tarbranch} 
 
-echo "\${ownbranch} \${tarbranch}"
-# >ginfo_${name}.txt
+echo "\${ownbranch} \${tarbranch}" >& 14
 
 
 Here
