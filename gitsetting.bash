@@ -54,7 +54,7 @@ git checkout \$ownbranch 2>/dev/null
 git remote add $rname $url  2>/dev/null   #error when remote node is exist
 
 git add --all 
-set -q
+set -e
 git commit -m "commit on \$(date)" 
 git pull $rname \$tarbranch
 git push $rname \${ownbranch}:\${tarbranch}
@@ -84,7 +84,7 @@ else
 fi
 
 git checkout \${ownbranch} 2>/dev/null
-set -q
+set -e
 git pull $rname \${tarbranch} 
 
 echo "\${ownbranch} \${tarbranch}"> ginfo_${name}.txt
