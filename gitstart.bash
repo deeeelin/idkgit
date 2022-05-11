@@ -12,7 +12,7 @@ echo "git start executed"
 
 function do_push () {
     echo "start pushing..."
-    echo "$1"
+    echo "your choice : $1"
     if [[ "$1" == 'all' ]]; then #not yet apply auto to own and tar branch
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
@@ -50,7 +50,7 @@ function do_push () {
 }
 function do_pull () {
     echo "start pulling..."
-
+    echo "your choice : $1"
     if [[ $1 == 'all' ]];then
 
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
