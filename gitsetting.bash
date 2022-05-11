@@ -39,8 +39,8 @@ cd ${route}
 
 if [[ \${pushmode} == "auto" && "\${previous[*]}" != '_nobranch _nobranch' ]] ;then
 
-    read ownbranch < \${previous[0]}
-    read tarbranch < \${previous[1]}
+    ownbranch=\${previous[0]}
+    tarbranch=\${previous[1]}
 
 elif [[ \${pushmode} == "auto" && "\${previous[*]}" == '_nobranch _nobranch' ]];then
 
@@ -80,8 +80,8 @@ read -a previous < ginfo_${name}.txt
 cd ${route}
 if [[ \${pullmode} == "auto" && "\${previous[*]}" != '_nobranch _nobranch' ]];then
 
-    read ownbranch < \${previous[0]}
-    read tarbranch < \${previous[1]}
+    read ownbranch=\${previous[0]}
+    read tarbranch=\${previous[1]}
 
 elif [[ \${pullmode} == "auto" && "\${previous[*]}" == '_nobranch _nobranch' ]];then #在if 判斷式中一個變數中有空格在錢錢符號外圍要加上雙引號
 
