@@ -33,7 +33,7 @@ function do_push () {
     else
         cd ~/Desktop/.gitprocess/gitprocessof$1/ #2>/dev/null
             if  [[ $? -eq 1 ]];then 
-                echo "push fail,no this dir" 
+                echo "push fail,project name non-found" 
                 return 
             fi
             chmod +x gpsh_$1.bash 
@@ -44,7 +44,7 @@ function do_push () {
             fi
     fi
 
-    echo "push completed"
+    echo "push process finished"
     
     return
 }
@@ -56,7 +56,7 @@ function do_pull () {
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
             cd ~/Desktop/.gitprocess/gitprocessof$i/ 
-            sed -i 's/pullmode="normal"/pullmode="auto"/' gpsh_$i.bash
+            sed -i '' 's/pullmode="normal"/pullmode="auto"/' gpul_$i.bash
             chmod +x gpul_$i.bash 
             ./gpul_$i.bash
             cond=$?
@@ -67,11 +67,15 @@ function do_pull () {
             elif [[ $cond -eq 1 ]];then
                 echo "$i pull failed" 
             fi
-            sed -i 's/pullmode="auto"/pullmode="normal"/' gpsh_$i.bash
+            sed -i '' 's/pullmode="auto"/pullmode="normal"/' gpul_$i.bash
             done
 
     else
-        cd ~/Desktop/.gitprocess/gitprocessof$1/ #e
+        cd ~/Desktop/.gitprocess/gitprocessof$1/
+            if  [[ $? -eq 1 ]];then 
+                echo "pull fail,project name non-found" 
+                return 
+            fi
             chmod +x gpul_$1.bash 
             ./gpul_$1.bash
             if [[ $? -eq 1 ]];then
@@ -82,7 +86,7 @@ function do_pull () {
 
     fi
 
-    echo "pull completed"
+    echo "pull process finished"
     return
 }
 function delete (){ #feature succeed
@@ -101,14 +105,14 @@ function delete (){ #feature succeed
         echo "start deleting..." 
         rm -rf dir gitprocessof$1 # 不會丟錯誤
         if ! [[ $? -eq 0 ]];then 
-                echo "delete fail,no this dir" 
+                echo "delete fail,project name non-found" 
                 return 
         fi
 
     
     fi
 
-    echo "successfully deleted"
+    echo "delete process finished"
     return
 }
 function list () {

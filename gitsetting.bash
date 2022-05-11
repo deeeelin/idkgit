@@ -3,14 +3,13 @@ set -e
 
 echo "start creating....."
 
-
 read -p "please enter the remote repository url: " url
 
 read -p "please enter repository name: " rname
 
 read -p "please enter your folder path: "  route
 
-cd ${route} 
+cd ${route}  #make it coller
 
 read -p "please enter your project name: " name
 
@@ -73,16 +72,20 @@ Here
 
 cat  >& 13  <<Here 
 #! /bin/bash
+
 pullmode="normal"
+
 cd ~/Desktop/.gitprocess/gitprocessof${name}/
+
 read -a previous < ginfo_${name}.txt
 
 
 cd ${route}
+
 if [[ \${pullmode} == "auto" && "\${previous[*]}" != '_nobranch _nobranch' ]];then
 
-    read ownbranch=\${previous[0]}
-    read tarbranch=\${previous[1]}
+    ownbranch=\${previous[0]}
+    tarbranch=\${previous[1]}
 
 elif [[ \${pullmode} == "auto" && "\${previous[*]}" == '_nobranch _nobranch' ]];then #在if 判斷式中一個變數中有空格在錢錢符號外圍要加上雙引號
 
@@ -96,9 +99,13 @@ else
 fi
 
 git checkout \${ownbranch} 2>/dev/null
+
 set -e
+
 git pull $rname \${tarbranch} 
+
 cd ~/Desktop/.gitprocess/gitprocessof${name}/
+
 echo "\${ownbranch} \${tarbranch}" > ginfo_${name}.txt
 
 
