@@ -68,6 +68,9 @@ git push $rname \${ownbranch}:\${tarbranch}
 cd ~/Desktop/.gitprocess/gitprocessof${name}/
 
 echo "\${ownbranch} \${tarbranch}" > ginfo_${name}.txt
+
+cat ginfo_${name}.txt
+echo "finishedddddddd"
 Here
 
 cat  >& 13  <<Here 
