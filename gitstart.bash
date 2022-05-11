@@ -95,7 +95,7 @@ function delete (){ #feature succeed
         
         cd ~/Desktop/.gitprocess/
         echo "start deleting..." 
-        rm -rf dir gitprocessof$1
+        rm -rf dir gitprocessof$1 # 不會丟錯誤
         if ! [[ $? -eq 0 ]];then 
                 echo "delete fail,no this dir" 
                 return 

@@ -57,7 +57,7 @@ set -e #every git push will change DS store ,so you can pull cand push without c
 git commit -m "commit on \$(date)" 
 git pull $rname \$tarbranch 
 git push $rname \${ownbranch}:\${tarbranch}
-echo "\${ownbranch} \${tarbranch}"> ginfo_${name}.txt
+echo "\${ownbranch} \${tarbranch}" > ginfo_${name}.txt
 Here
 
 cat  >& 13  <<Here 
