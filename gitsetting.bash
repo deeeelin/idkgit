@@ -68,7 +68,6 @@ cd ~/Desktop/.gitprocess/gitprocessof${name}/
 
 echo "\${ownbranch} \${tarbranch}" > ginfo_${name}.txt
 
-cat ginfo_${name}.txt
 
 Here
 
