@@ -1,3 +1,3 @@
-
-/Users/derek/Desktop/coding/bash/gitmanager/fortest.bash
-echo $?
+i=grjkn
+j=gij
+echo "$j$i" >| temp.txt
