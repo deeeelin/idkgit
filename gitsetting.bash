@@ -24,14 +24,17 @@ touch gpul_${name}.bash
 echo "_nobranch _nobranch" > ginfo_${name}.txt #written into file is disable when using echo to a bash document
 exec 12>gpsh_${name}.bash
 exec 13>gpul_${name}.bash
-exec 14>ginfo_${name}.txt
 
 cat  >& 12 <<Here
 #! /bin/bash
 
 
 pushmode="normal"
+
+cd ~/Desktop/.gitprocess/gitprocessof${name}/
+
 read -a previous < ginfo_${name}.txt
+
 cd ${route}
 
 if [[ \${pushmode} == "auto" && "\${previous[*]}" != '_nobranch _nobranch' ]] ;then
@@ -55,15 +58,22 @@ git remote add $rname $url  2>/dev/null   #error when remote node is exist
 
 git add --all 
 set -e #every git push will change DS store ,so you can pull cand push without changing
+
 git commit -m "commit on \$(date)" 
+
 git pull $rname \$tarbranch 
+
 git push $rname \${ownbranch}:\${tarbranch}
-echo "\${ownbranch} \${tarbranch}" >& 14
+
+cd ~/Desktop/.gitprocess/gitprocessof${name}/
+
+echo "\${ownbranch} \${tarbranch}" > ginfo_${name}.txt
 Here
 
 cat  >& 13  <<Here 
 #! /bin/bash
 pullmode="normal"
+cd ~/Desktop/.gitprocess/gitprocessof${name}/
 read -a previous < ginfo_${name}.txt
 
 
@@ -87,8 +97,8 @@ fi
 git checkout \${ownbranch} 2>/dev/null
 set -e
 git pull $rname \${tarbranch} 
-
-echo "\${ownbranch} \${tarbranch}" >& 14
+cd ~/Desktop/.gitprocess/gitprocessof${name}/
+echo "\${ownbranch} \${tarbranch}" > ginfo_${name}.txt
 
 
 Here
