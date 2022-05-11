@@ -57,10 +57,11 @@ function do_pull () {
             sed -i 's/pullmode="normal"/pullmode="auto"/' gpsh_$i.bash
             chmod +x gpul_$i.bash 
             ./gpul_$i.bash
-            if [[ $? -eq 87 ]];then
+            cond=$?
+            if [[ $cond -eq 87 ]];then
                 echo "$i pull failed" 
                 echo "no previous reference for auto"
-            elif [[ $? -eq 1 ]];then
+            elif [[ $cond -eq 1 ]];then
                 echo "$i pull failed" 
             fi
             sed -i 's/pullmode="auto"/pullmode="normal"/' gpsh_$i.bash
