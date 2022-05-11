@@ -24,7 +24,6 @@ touch gpul_${name}.bash
 echo "_nobranch _nobranch" > ginfo_${name}.txt #written into file is disable when using echo to a bash document
 exec 12>gpsh_${name}.bash
 exec 13>gpul_${name}.bash
-exec 14>ginfo_${name}.bash
 
 cat  >& 12 <<Here
 #! /bin/bash
@@ -44,8 +43,8 @@ elif [[ \${pushmode} == "auto" && "\${previous[*]}" == '_nobranch _nobranch' ]];
     exit 87
 
 else
-    read -p "own branch" ownbranch 
-    read -p "tar branch" tarbranch 
+    read -p "own branch: " ownbranch 
+    read -p "tar branch: " tarbranch 
 
 fi
 
@@ -79,8 +78,8 @@ elif [[ \${pullmode} == "auto" && "\${previous[*]}" == '_nobranch _nobranch' ]];
 
 else
 
-    read -p "own branch" ownbranch 
-    read -p "tar branch" tarbranch 
+    read -p "own branch: " ownbranch 
+    read -p "tar branch: " tarbranch 
 
 fi
 
@@ -89,6 +88,7 @@ set -e
 git pull $rname \${tarbranch} 
 
 echo "\${ownbranch} \${tarbranch}"> ginfo_${name}.txt
+
 
 Here
 
