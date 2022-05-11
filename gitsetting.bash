@@ -28,15 +28,14 @@ exec 13>gpul_${name}.bash
 cat  >& 12 <<Here
 #! /bin/bash
 
-
 pushmode="normal"
-
+echo "$?"
 cd ~/Desktop/.gitprocess/gitprocessof${name}/
-
+echo "$?"
 read -a previous < ginfo_${name}.txt
-
+echo "$?"
 cd ${route}
-
+echo "$?"
 if [[ \${pushmode} == "auto" && "\${previous[*]}" != '_nobranch _nobranch' ]] ;then
 
     ownbranch=\${previous[0]}
@@ -51,26 +50,28 @@ else
     read -p "tar branch: " tarbranch 
 
 fi
-
+echo "$?"
 git checkout \$ownbranch 2>/dev/null
-
+echo "$?"
 git remote add $rname $url  2>/dev/null   #error when remote node is exist
-
+echo "$?"
 git add --all 
 set -e #every git push will change DS store ,so you can pull cand push without changing
-
+echo "$?"
 git commit -m "commit on \$(date)" 
-
+echo "$?"
 git pull $rname \$tarbranch 
-
+echo "$?"
 git push $rname \${ownbranch}:\${tarbranch}
-
+echo "$?"
 cd ~/Desktop/.gitprocess/gitprocessof${name}/
-
+echo "$?"
 echo "\${ownbranch} \${tarbranch}" > ginfo_${name}.txt
-
+echo "$?"
 cat ginfo_${name}.txt
+echo "$?"
 echo "finishedddddddd"
+echo "$?"
 Here
 
 cat  >& 13  <<Here 

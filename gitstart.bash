@@ -24,7 +24,7 @@ function do_push () {
                 echo "$1 push failed" 
                 echo "no previous reference for auto"
             elif [[ $? -eq 1 ]];then
-                echo "$1 push failed" 
+                echo "$i push failed" 
             fi
             sed -i '' 's/pushmode="auto"/pushmode="normal"/' gpsh_$i.bash
             done
@@ -37,7 +37,7 @@ function do_push () {
             chmod +x gpsh_$1.bash 
             ./gpsh_$1.bash
             if [[ $? -eq 1 ]];then
-                echo "$1 push failed" 
+                echo "$i push failed" 
                 return
             fi
     fi
@@ -58,10 +58,10 @@ function do_pull () {
             chmod +x gpul_$i.bash 
             ./gpul_$i.bash
             if [[ $? -eq 87 ]];then
-                echo "$1 pull failed" 
+                echo "$i pull failed" 
                 echo "no previous reference for auto"
             elif [[ $? -eq 1 ]];then
-                echo "$1 pull failed" 
+                echo "$i pull failed" 
             fi
             sed -i 's/pullmode="auto"/pullmode="normal"/' gpsh_$i.bash
             done
