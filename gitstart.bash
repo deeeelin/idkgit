@@ -19,7 +19,7 @@ function do_push () {
             cd ~/Desktop/.gitprocess/gitprocessof$i/ 
             sed -i '' 's/pushmode="normal"/pushmode="auto"/' gpsh_$i.bash
             chmod +x gpsh_$i.bash 
-            ./gpsh_$i.bash
+            bash -x ./gpsh_$i.bash
             if [[ $? -eq 87 ]];then
                 echo "$1 push failed" 
                 echo "no previous reference for auto"
