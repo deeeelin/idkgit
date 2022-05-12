@@ -48,7 +48,10 @@ git push ${info[1]} ${ownbranch}:${tarbranch}
 
 cd ~/Desktop/.gitprocess/gitprocessof$1/
 
-sed -i '' "/prevo:/s/prevo:*/prevo:${ownbranch}/" ginfo_$1.txt
+tochange=$(grep "prevo:" ginfo_$1.txt | cut -c7-)
 
-sed -i '' "/prevt:/s/prevt:*/prevt:${tarbranch}/" ginfo_$1.txt
+sed -i '' "/prevo:/s/$tochange/${ownbranch}/" ginfo_$1.txt
 
+tochange=$(grep "prevt:" ginfo_$1.txt | cut -c7-)
+
+sed -i '' "/prevt:/s/$tochange/${tarbranch}/" ginfo_$1.txt

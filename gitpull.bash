@@ -22,8 +22,8 @@ cd ${info[2]}
 
 if [[ ${pullmode} == "auto" && "${info[3]}" != '_nobranch' ]] ;then
 
-    ownbranch=\${previous[0]}
-    tarbranch=\${previous[1]}
+    ownbranch=${info[3]}
+    tarbranch=${info[4]}
 
 elif [[ ${pullmode} == "auto" && "${info[3]}" == '_nobranch' ]];then
  #在if 判斷式中一個變數中有空格在錢錢符號外圍要加上雙引號
@@ -49,6 +49,13 @@ git pull ${info[1]} $tarbranch
 
 cd ~/Desktop/.gitprocess/gitprocessof$1/
 
-sed -i '' "/prevo:/s/prevo:*/prevo:${ownbranch}/" ginfo_$1.txt
+tochange=$(grep "prevo:" ginfo_$1.txt | cut -c7-)
 
-sed -i '' "/prevt:/s/prevt:*/prevt:${tarbranch}/" ginfo_$1.txt
+sed -i '' "/prevo:/s/$tochange/${ownbranch}/" ginfo_$1.txt
+
+tochange=$(grep "prevt:" ginfo_$1.txt | cut -c7-)
+
+sed -i '' "/prevt:/s/$tochange/${tarbranch}/" ginfo_$1.txt
+
+
+
