@@ -1,6 +1,6 @@
 #! /bin/bash
 
-
+# error when path =enter
 read -p "give me a path: " route
 
 
