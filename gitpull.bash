@@ -3,8 +3,9 @@
 declare -a info
 
 
-
-cd ~/Desktop/.gitprocess/gitprocessof$1/
+set -e
+cd ~/Desktop/.gitprocess/gitprocessof$1/ 2>/dev/null
+set +e
 
 info[0]=$(grep "url:" ginfo_$1.txt | cut -c5-)
 info[1]=$(grep "repn:" ginfo_$1.txt| cut -c6-)

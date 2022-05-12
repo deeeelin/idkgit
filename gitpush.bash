@@ -3,14 +3,16 @@
 declare -a info
 
 #echo "$1 $2"
-cd ~/Desktop/.gitprocess/gitprocessof$1/
+set -e
+cd ~/Desktop/.gitprocess/gitprocessof$1/ 2>/dev/null
+set +e
 
 info[0]=$(grep "url:" ginfo_$1.txt | cut -c5-)
 info[1]=$(grep "repn:" ginfo_$1.txt| cut -c6-)
 info[2]=$(grep "route:" ginfo_$1.txt| cut -c7-)
 info[3]=$(grep "prevo:" ginfo_$1.txt| cut -c7-)
 info[4]=$(grep "prevt:" ginfo_$1.txt| cut -c7-)
-#echo "${info[@]}"
+
 
 pushmode=$2
 

@@ -21,7 +21,6 @@ function do_push () {
     if [[ "$1" == 'all' ]]; then #not yet apply auto to own and tar branch
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
-            cd $IDKDIR
             chmod +x gitpush.bash 
             ./gitpush.bash $i "auto"
             local cond=$?
@@ -34,7 +33,6 @@ function do_push () {
             fi
             done
     else
-            cd $IDKDIR
             chmod +x gitpush.bash 
             ./gitpush.bash $1 "normal"         
             cond=$?
@@ -55,7 +53,6 @@ function do_pull () {
 
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
-            cd $IDKDIR
             chmod +x gitpull.bash 
             ./gitpull.bash $i "auto"
             local cond=$?
@@ -69,7 +66,6 @@ function do_pull () {
             done
 
     else
-            cd $IDKDIR
             chmod +x gitpull.bash 
             ./gitpull.bash $1 "normal"
             cond=$?
@@ -126,28 +122,20 @@ function list () {
 function jumpy () {
 
     declare -a arr
-    declare -a routes
-    declare -i i
     cd ~/Desktop/.gitprocess/
     arr=$(find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
-
     #echo ${arr[@]}
-
-    for (( i=0; i<${#arr[@]} ; i++ ))
-    do 
-    routes[${arr[i]}]=$(find . -name gpsh_${arr[i]}.bash | grep 'cd'|sed -e 's/^..//')
+    PS3='choose:'
+    select c in ${arr[@]}
+    do
+        echo "you chose : $c"
+        cd ~/Desktop/.gitprocess/gitprocessof$c/
+        cd $(grep "route:" ginfo_$c.txt| cut -c7-)
+        echo "jumped"
+        break
     done
-    select route in arr
-    do 
-    echo "您鍵入的編號為$REPLY,選擇了 ${route}"
+    return
 
-    cd routes[$route]
-    
-    done
-
-    kill -Term $$
-    
-    return 
 }
 while ((1)) 
 do
@@ -174,7 +162,7 @@ do
         #  *will expand first and if there are two thing that fits,
         #  then there will be two arg putted in find,which will cause error
 
-        jump) jumpy ;;
+        jump) jumpy; break ;;
 
         out) cd ~ ; break ;;
 
