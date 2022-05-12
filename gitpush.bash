@@ -1,37 +1,54 @@
 #! /bin/bash
-set -e
 
-pushmode="normal"
-read previous<ginfo_${name}.bash
-cd ${route}
+declare -a info
 
-if [[ pushmode == "auto" && ${previous[*]} != '_null _null' ]];then
+#echo "$1 $2"
+cd ~/Desktop/.gitprocess/gitprocessof$1/
 
-    read -p "own branch" ownbranch <${previous[0]}
-    read -p "tar branch" tarbranch <${previous[1]}
+info[0]=$(grep "url:" ginfo_$1.txt | cut -c5-)
+info[1]=$(grep "repn:" ginfo_$1.txt| cut -c6-)
+info[2]=$(grep "route:" ginfo_$1.txt| cut -c7-)
+info[3]=$(grep "prevo:" ginfo_$1.txt| cut -c7-)
+info[4]=$(grep "prevt:" ginfo_$1.txt| cut -c7-)
+#echo "${info[@]}"
 
-else if [[ pushmode == "auto" && ${previous[*]} == '_null _null' ]];then
+pushmode=$2
 
-    exit 1
+cd ${info[2]}
+
+if [[ ${pushmode} == "auto" && "${info[3]}" != '_nobranch' ]] ;then
+
+    ownbranch=${info[3]}
+    tarbranch=${info[4]}
+
+elif [[ ${pushmode} == "auto" && "${info[3]}" == '_nobranch' ]];then
+
+    exit 87
 
 else
-    read -p "own branch" ownbranch 
-    read -p "tar branch" tarbranch 
+    read -p "own branch: " ownbranch 
+    read -p "tar branch: " tarbranch 
 
 fi
 
-git checkout \$ownbranch  
-git remote add $rname $url      #error when remote node is exist
+git checkout $ownbranch 2>/dev/null
 
-if [[ \$(git status | grep -q '沒有要提交的檔案，工作區為乾淨狀態') ]];then
+git remote remove ${info[1]} 2>/dev/null
 
-    echo "no files to add,push failed"
-    exit 1
-
-fi
+git remote add ${info[1]} ${info[0]}  2>/dev/null   #error when remote node is exist
 
 git add --all 
-git commit -m "commit on \$(date)"
-git pull $rname \$tarbranch
-git push $rname \${ownbranch}:\${tarbranch}
-echo "\${ownbranch} \${tarbranch}"> ginfo_${name}.bash
+set -e #every git push will change DS store ,so you can pull cand push without changing
+
+git commit -m "commit on $(date)" 
+
+git pull ${info[1]} $tarbranch 
+
+git push ${info[1]} ${ownbranch}:${tarbranch}
+
+cd ~/Desktop/.gitprocess/gitprocessof$1/
+
+sed -i '' "/prevo:/s/prevo:*/prevo:${ownbranch}/" ginfo_$1.txt
+
+sed -i '' "/prevt:/s/prevt:*/prevt:${tarbranch}/" ginfo_$1.txt
+

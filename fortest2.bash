@@ -1,3 +1,1 @@
-i=grjkn
-j=gij
-echo "$j$i" >| temp.txt
+sed -i '' 's/'

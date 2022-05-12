@@ -1,12 +1,17 @@
 #! /bin/bash #possible error excluded
 #set -e  #這裏架set -e只要子程式出錯，這個也會跳出去
-if  ! [[ $( alias | grep -q 'idk=' ) ]];then
-    cd ~/
-    cat >>.bash_profile << Here1234 
-    alias idk="$0"
-Here1234
+#alias | awk '/idk=/{ exit 1 }'  #you cannot put this thing in a $() ,it will open a child shell,and you cannot see alias
 
+if [[ $SHLVL -ne 1 ]]; then
+echo "setting alias...." 
+cat >>.bash_profile << Here1234
+    alias idk='source $0'
+    export IDKDIR="$(dirname $0)"
+Here1234
+chmod +x ~/.bash_profile
+~/.bash_profile
 fi
+
 
 echo "git start executed"
 
@@ -16,11 +21,10 @@ function do_push () {
     if [[ "$1" == 'all' ]]; then #not yet apply auto to own and tar branch
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
-            cd ~/Desktop/.gitprocess/gitprocessof$i/ 
-            sed -i '' 's/pushmode="normal"/pushmode="auto"/' gpsh_$i.bash
-            chmod +x gpsh_$i.bash 
-            ./gpsh_$i.bash
-            cond=$?
+            cd $IDKDIR
+            chmod +x gitpush.bash 
+            ./gitpush.bash $i "auto"
+            local cond=$?
             #echo "this is fucking $cond"
             if [[ $cond -eq 87 ]];then
                 echo "$1 push failed" 
@@ -28,18 +32,14 @@ function do_push () {
             elif [[ $cond -eq 1 ]];then
                 echo "$i push failed" 
             fi
-            sed -i '' 's/pushmode="auto"/pushmode="normal"/' gpsh_$i.bash
             done
     else
-        cd ~/Desktop/.gitprocess/gitprocessof$1/ #2>/dev/null
-            if  [[ $? -eq 1 ]];then 
-                echo "push fail,project name non-found" 
-                return 
-            fi
-            chmod +x gpsh_$1.bash 
-            ./gpsh_$1.bash
-            if [[ $? -eq 1 ]];then
-                echo "$i push failed" 
+            cd $IDKDIR
+            chmod +x gitpush.bash 
+            ./gitpush.bash $1 "normal"         
+            cond=$?
+            if [[ $cond -eq 1 ]];then
+                echo "$1 push failed" 
                 return
             fi
     fi
@@ -55,11 +55,10 @@ function do_pull () {
 
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
-            cd ~/Desktop/.gitprocess/gitprocessof$i/ 
-            sed -i '' 's/pullmode="normal"/pullmode="auto"/' gpul_$i.bash
-            chmod +x gpul_$i.bash 
-            ./gpul_$i.bash
-            cond=$?
+            cd $IDKDIR
+            chmod +x gitpull.bash 
+            ./gitpull.bash $i "auto"
+            local cond=$?
             #echo "this is fucking $cond"
             if [[ $cond -eq 87 ]];then
                 echo "$i pull failed" 
@@ -67,18 +66,14 @@ function do_pull () {
             elif [[ $cond -eq 1 ]];then
                 echo "$i pull failed" 
             fi
-            sed -i '' 's/pullmode="auto"/pullmode="normal"/' gpul_$i.bash
             done
 
     else
-        cd ~/Desktop/.gitprocess/gitprocessof$1/
-            if  [[ $? -eq 1 ]];then 
-                echo "pull fail,project name non-found" 
-                return 
-            fi
-            chmod +x gpul_$1.bash 
-            ./gpul_$1.bash
-            if [[ $? -eq 1 ]];then
+            cd $IDKDIR
+            chmod +x gitpull.bash 
+            ./gitpull.bash $1 "normal"
+            cond=$?
+            if [[ $cond -eq 1 ]];then
                 echo "$1 pull failed" 
                 return
             fi
@@ -157,7 +152,8 @@ function jumpy () {
 while ((1)) 
 do
     read -p "mode: "
-    cd $(dirname $0)
+    cd ${IDKDIR}
+  # echo "this is ${IDKDIR}"
     case $REPLY in 
         clone) chmod +x gitclone.bash;./gitclone.bash ;;
 
