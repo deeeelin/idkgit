@@ -33,8 +33,14 @@ elif [[ ${pullmode} == "auto" && "${info[3]}" == '_nobranch' ]];then
 
 else
 
-    read -p "own branch: " ownbranch 
+    read -p "own branch: " ownbranch
+    if [[ $ownbranch == "back" ]]; then 
+        exit 88
+    fi
     read -p "tar branch: " tarbranch 
+    if [[ $tarbranch == "back" ]]; then 
+        exit 88
+    fi
 
 fi
 

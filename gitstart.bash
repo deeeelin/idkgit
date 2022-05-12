@@ -24,8 +24,10 @@ Here1234
 
 function do_push () {
 
-    read -p "proj name: "
-
+    read -p "proj name: " ; 
+    if [[ $REPLY == "back" ]]; then 
+    return 
+    fi
     echo "start pushing..."
 
     echo "your choice : $REPLY"
@@ -43,7 +45,7 @@ function do_push () {
                 echo "$i push failed" 
                 echo "no previous reference for auto"
             elif [[ $cond -eq 1 ]];then
-                echo "$i push failed" 
+                echo "$i push failed"
             fi
             done
 
@@ -55,17 +57,21 @@ function do_push () {
             if [[ $cond -eq 1 ]];then
                 echo "$REPLY push failed" 
                 return
+            elif [[ $cond -eq 88 ]];then
+                return
             fi
     fi
 
     echo "push process finished"
     
     return
-
-
 }
 function do_pull () {
     read -p "proj name: "
+
+    if [[ $REPLY == "back" ]]; then 
+    return 
+    fi
 
     echo "start pulling..."
     echo "your choice : $REPLY"
@@ -97,6 +103,8 @@ function do_pull () {
 
             if [[ $cond -eq 1 ]];then
                 echo "$REPLY pull failed" 
+                return
+            elif [[ $cond -eq 88 ]];then
                 return
             fi
             
@@ -131,33 +139,43 @@ function do_create () {
     return 
 
 }
-function delete (){ 
+function delete (){  #error
+    declare -a list
+    PS3="proj name: "
 
-    read -p "proj name: "
+    list=$(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
+    list+=" all"
+    list+=" back"
+    select p in ${list}
+    do
+        if [[ $p == 'all' ]];then
 
-    if [[ $REPLY == 'all' ]];then
-
-        for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
-            do
-            cd ~/Desktop/.gitprocess/
-            echo "start deleting..."
-            rm -rf dir gitprocessof$i #e
-            done
-
-    else
+            for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
+                do
+                cd ~/Desktop/.gitprocess/
+                echo "start deleting..."
+                rm -rf dir gitprocessof$i #e
+                done
+            break
         
-        cd ~/Desktop/.gitprocess/
-        echo "start deleting..." 
-        rm -rf dir gitprocessof$REPLY # 不會丟錯誤
+        elif [[ $p == "back" ]];then
+            return
 
-        if ! [[ $? -eq 0 ]];then 
-                echo "delete fail,project name non-found" 
-                return 
+        else
+            
+            cd ~/Desktop/.gitprocess/
+            echo "start deleting..." 
+            rm -rf dir gitprocessof$p # 不會丟錯誤
+
+            cd ~/Desktop/.gitprocess/gitprocessof$p 2>/dev/null
+            if ! [[ $? -eq 1 || $REPLY == '' ]];then     
+                    break    
+            fi
+
+            
+            echo "delete fail,project name non-found,choose again"
         fi
-
-    
-    fi
-
+    done
     echo "delete process finished"
     return
 }
@@ -178,19 +196,31 @@ function jumpy () {
 
     cd ~/Desktop/.gitprocess/
     arr=$(find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
+
+    arr+=" back"
+    echo "${arr[0]}"
     #echo ${arr[@]}
     PS3='choose:'
 
     select c in ${arr[@]}
     do
         echo "you chose : $c"
-        cd ~/Desktop/.gitprocess/gitprocessof$c/
-        cd $(grep "route:" ginfo_$c.txt| cut -c7-)
-        echo "jumped"
-        break
+        if [[ $c == "back" ]];then 
+            return 1
+        fi
+        cd ~/Desktop/.gitprocess/gitprocessof$c/ 2>/dev/null
+
+        if [[ $? -eq 0 ]];then
+
+            cd $(grep "route:" ginfo_$c.txt| cut -c7-) 
+            echo "jumped"
+            break 2
+        fi
+
+        echo "input invalid,please choose again"
     done
 
-    return
+    return 0
 
 }
 
@@ -220,7 +250,11 @@ function main (){
             #  *will expand first and if there are two thing that fits,
             #  then there will be two arg putted in find,which will cause error
 
-            jump) jumpy; break ;;
+            jump) jumpy; 
+            if [[ $? -eq 0 ]];then 
+                break
+            fi
+            ;;
 
             out) cd ~ ; break ;;
 
@@ -231,6 +265,8 @@ function main (){
     done 
     echo "idk closed"
 }
+
+        
 
 #execute
 start
