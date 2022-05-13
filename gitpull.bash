@@ -11,9 +11,9 @@ function do_pull () {
 
     back $REPLY
     cd ~/Desktop/.gitprocess/gitprocessof$REPLY 2>/dev/null
-    while [[ $? -eq 1 ]] 
+    while [[ $? -eq 1 && $REPLY != "all" ]] 
     do 
-        echo "nu such proj "
+        echo "no such proj "
         read -p "proj name: "
         back $REPLY
         cd ~/Desktop/.gitprocess/gitprocessof$REPLY 2>/dev/null
