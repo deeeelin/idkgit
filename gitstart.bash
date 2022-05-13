@@ -22,8 +22,8 @@ Here1234
     echo "git start executed"
 }
 function do_push () {
-    chmod +x gitpush.bash
-    ./gitpush.bash "push"
+    chmod +x gitpp.bash
+    ./gitpp.bash "push"
     local cond=$?
 
     if [[ $cond -eq 87 ]];then
@@ -44,8 +44,8 @@ function do_push () {
 }
 function do_pull () {
 
-    chmod +x gitpush.bash
-    ./gitpush.bash "pull"
+    chmod +x gitpp.bash
+    ./gitpp.bash "pull"
 
     local cond=$?
 
