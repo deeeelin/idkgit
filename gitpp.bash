@@ -1,16 +1,22 @@
 #! /bin/bash
 function back () {
+
     if [[ $1 == "back" ]];then
         exit 88
     fi
+
     return 
 }
 function do_pp () {
+
     local cond
     local noprev=0
+
     read -p "proj name: " 
     back $REPLY
+
     cd ~/Desktop/.gitprocess/gitprocessof$REPLY 2>/dev/null
+
     while [[ $? -eq 1 && $REPLY != "all" ]] 
     do 
         echo "no such proj "
@@ -20,10 +26,9 @@ function do_pp () {
     done
 
     echo "start ${mode}ing..."
-
     echo "your choice : $REPLY"
 
-    if [[ "$REPLY" == 'all' ]]; then #not yet apply auto to own and tar branch
+    if [[ "$REPLY" == 'all' ]]; then 
 
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
         do
@@ -38,6 +43,7 @@ function do_pp () {
                 echo "$i ${mode} success"
             fi
         done
+
         if [[ $noprev -eq 1 ]];then 
             exit 87
         fi
@@ -45,6 +51,7 @@ function do_pp () {
     else
             pp $REPLY "normal"  
             cond=$?
+
             if [[ $cond -eq 1 ]];then
                exit 1
             elif [[ $cond -eq 87 ]];then 
@@ -59,7 +66,6 @@ function pp () {
 
     declare -a info
 
-    #echo "$1 $2"
     set -e
     cd ~/Desktop/.gitprocess/gitprocessof$1/ 2>/dev/null
     set +e
