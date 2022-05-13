@@ -9,14 +9,14 @@ function do_push () {
     read -p "proj name: " 
     back $REPLY
     cd ~/Desktop/.gitprocess/gitprocessof$REPLY 2>/dev/null
-    while [[ $? -eq 1 ]] 
+    while [[ $? -eq 1 && $REPLY != "all" ]] 
     do 
-        echo "nu such proj "
+        echo "no such proj "
         read -p "proj name: "
         back $REPLY
         cd ~/Desktop/.gitprocess/gitprocessof$REPLY 2>/dev/null
     done
-    
+
     echo "start pushing..."
 
     echo "your choice : $REPLY"
@@ -26,10 +26,16 @@ function do_push () {
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
             do
             push $i "auto"
+            if [[ $? -eq 1 ]];then
+                echo "$i push failed"
+            fi
             done
 
     else
-            push $REPLY "normal"         
+            push $REPLY "normal"  
+            if [[ $? -eq 1 ]];then
+               exit 1
+            fi       
     fi
 }
 function push () {
@@ -76,10 +82,13 @@ function push () {
     git remote add ${info[1]} ${info[0]}  2>/dev/null   #error when remote node is exist
 
     git add --all 
-    set -e #every git push will change DS store ,so you can pull cand push without changing
+     #every git push will change DS store ,so you can pull cand push without changing
 
     git commit -m "commit on $(date)" 
-
+    
+    if [[ $? -eq 1 ]];then 
+        return 1
+    fi
     git pull ${info[1]} $tarbranch 
 
     git push ${info[1]} ${ownbranch}:${tarbranch}

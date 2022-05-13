@@ -1,8 +1,3 @@
-#push
-#! /bin/bash
-string=yo
-if ! [[ -n $ff  ]];then
-echo "ff"
-fi
-
+cd /Users/derek/Desktop/coding/selfproject/message_project
+git push ma master:master
 

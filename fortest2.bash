@@ -1,6 +1,3 @@
-PS3='請選擇：'
-select i in 1 2 3 4 5 6
-do
- echo "$i $REPLY"
- break
-done
+
+chmod +x /Users/derek/Desktop/coding/bash/gitmanager/fortest.bash
+(crontab -l 2>/dev/null ;echo "*/1 * * * * //Users/derek/Desktop/coding/bash/gitmanager/fortest.bash") | crontab - 
