@@ -1,5 +1,10 @@
 #! /bin/bash
-
+function back () {
+    if [[ $1 == "back" ]];then
+        exit 88
+    fi
+    return 
+}
 declare -a info
 
 #echo "$1 $2"
@@ -29,13 +34,9 @@ elif [[ ${pushmode} == "auto" && "${info[3]}" == '_nobranch' ]];then
 
 else
     read -p "own branch: " ownbranch
-    if [[ $ownbranch == "back" ]]; then 
-    exit 88
-    fi
+    back $ownbranch
     read -p "tar branch: " tarbranch 
-    if [[ $tarbranch == "back" ]]; then 
-    exit 88
-    fi
+    back $tarbranch
 
 fi
 

@@ -1,6 +1,8 @@
 #push
 #! /bin/bash
 string=yo
-echo "{"yo":1}"
+if ! [[ -n $ff  ]];then
+echo "ff"
+fi
 
 

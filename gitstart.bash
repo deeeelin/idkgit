@@ -118,10 +118,12 @@ function do_init () {
 
     chmod +x gitinit.bash
     ./gitinit.bash
-
-    if [[ $? -eq 1 ]];then
+    cond=$?
+    if [[ ${cond} -eq 1 ]];then
         echo "git init finished,commit failed"
-    else
+    elif [[ $cond -eq 88 ]];then
+        echo "back to mode"
+    else 
         echo "git init success"
     fi
 
@@ -130,65 +132,39 @@ function do_init () {
 function do_clone () {
     chmod +x gitclone.bash
     ./gitclone.bash
+    cond=$?
+    if [[ ${cond} -eq 1 ]];then
+        echo "clone failed"
+    elif [[ ${cond} -eq 88 ]];then
+        echo "backed to mode"
+    else
+        echo "clone sucess"
+    fi
+    
+    return
 }
 function do_create () {
 
     chmod +x gitsetting.bash
     ./gitsetting.bash
-
+    if [[ $? -eq 88 ]];then
+        echo "back to mode"
+    elif [[ $? -eq 1 ]];then
+        echo "create failed"
+    fi
     return 
 
 }
-function delete (){  #error
-    declare -a list
-    PS3="proj name: "
+function delete () {  #error
+    chmod +x gitdelete.bash
+    ./gitdelete.bash
+    if [[ $? -eq 88 ]];then
+        echo "back to mode"
+    elif [[ $? -eq 1 ]];then
+        echo "delete failed"
+    fi
+    return  
 
-    list=$(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
-    list+=" all"
-    list+=" back"
-    select p in ${list}
-    do
-        if [[ $p == 'all' ]];then
-
-            for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
-                do
-                cd ~/Desktop/.gitprocess/
-                echo "start deleting..."
-                rm -rf dir gitprocessof$i #e
-                done
-            break
-        
-        elif [[ $p == "back" ]];then
-            return
-
-        else
-            
-            cd ~/Desktop/.gitprocess/
-            echo "start deleting..." 
-            rm -rf dir gitprocessof$p # 不會丟錯誤
-
-            cd ~/Desktop/.gitprocess/gitprocessof$p 2>/dev/null
-            if ! [[ $? -eq 1 || $REPLY == '' ]];then     
-                    break    
-            fi
-
-            
-            echo "delete fail,project name non-found,choose again"
-        fi
-    done
-    echo "delete process finished"
-    return
-}
-function list () {
-
-    echo "current projects:"
-
-    cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p'
-
-    echo
-    echo
-    
-    return
 }
 function jumpy () {
 
