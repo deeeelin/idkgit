@@ -21,48 +21,28 @@ Here1234
 
     echo "git start executed"
 }
-function do_push () {
+function do_pp () {
+    if [[ $1 == "push" ]];then
+        mode="push"
+    else
+        mode="pull"
+    fi
     chmod +x gitpp.bash
-    ./gitpp.bash "push"
+    ./gitpp.bash $mode
     local cond=$?
 
     if [[ $cond -eq 87 ]];then
-        echo "push failed" 
-        echo "no previous reference for auto"
+        echo "some ${mode} failed" 
+        echo "error: no previous reference "
 
     elif [[ $cond -eq 1 ]];then
-        echo "push failed" 
+        echo "${mode} failed" 
         return
     elif [[ $cond -eq 88 ]];then
         echo "back to mode"
         return
     else
-        echo "push process finished" 
-    fi
-
-    return
-}
-function do_pull () {
-
-    chmod +x gitpp.bash
-    ./gitpp.bash "pull"
-
-    local cond=$?
-
-    if [[ $cond -eq 87 ]];then
-
-        echo "$i pull failed" 
-        echo "no previous reference for auto"
-
-    elif [[ $cond -eq 1 ]];then
-
-        echo "$REPLY pull failed" 
-        return
-    elif [[ $cond -eq 88 ]];then
-        return
-    else 
-        echo "pull process finished"
-
+        echo "${mode} process finished" 
     fi
 
     return
@@ -177,9 +157,9 @@ function main (){
 
             create) do_create ;;
 
-            push)  do_push  ;;
+            push)  do_pp "push";;
 
-            pull)  do_pull ;;
+            pull)  do_pp "pull";;
 
             delete) do_delete ;;
 

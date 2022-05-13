@@ -1,9 +1,6 @@
 #! /bin/bash
-if [[ $1 == "push" ]];then
-    mode="push"
-else
-    mode="pull"
-fi
+
+
 function back () {
     if [[ $1 == "back" ]];then
         exit 88
@@ -37,6 +34,7 @@ function do_pp () {
             if [[ $cond -eq 1 ]];then
                 echo "$i ${mode} failed"
             elif [[ $cond -eq 87 ]];then
+                echo "no prev ref for $i,$i ${mode} failed"
                 noprev=1
             else 
                 echo "$i ${mode} success"
@@ -130,4 +128,10 @@ function pp () {
     sed -i '' "/prevt:/s/$tochange/${tarbranch}/" ginfo_$1.txt
     return
 }
-do_pp
+if [[ $1 == "push" ]];then
+    mode="push"
+else
+    mode="pull"
+fi
+
+do_pp 
