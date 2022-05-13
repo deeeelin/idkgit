@@ -14,7 +14,7 @@ function delete () {
                 do
                     cd ~/Desktop/.gitprocess/
                     echo "start deleting..."
-                    rm -rf dir gitprocessof$i #e
+                    rm -rf dir gitprocessof$i 
                 done
 
             break
@@ -26,7 +26,7 @@ function delete () {
             
             cd ~/Desktop/.gitprocess/
             echo "start deleting..." 
-            rm -rf dir gitprocessof$p # 不會丟錯誤
+            rm -rf dir gitprocessof$p 
             cd ~/Desktop/.gitprocess/gitprocessof$p 2>/dev/null
 
             if [[ $? -eq 1 || $REPLY == '' ]];then   
@@ -38,7 +38,7 @@ function delete () {
     done
 
     echo "delete process finished"
-    
+
     return
 }
 delete
