@@ -125,7 +125,7 @@ function jumpy () {
     select c in ${arr[@]}
     do
         echo "you chose : $c"
-        if [[ $c == "back" ]];then 
+        if [[ $c == "(back_to_mode)" ]];then 
             return 1
         fi
         cd ~/Desktop/.gitprocess/gitprocessof$c/ 2>/dev/null
