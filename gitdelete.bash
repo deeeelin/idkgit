@@ -27,14 +27,18 @@ function delete () {
             rm -rf dir gitprocessof$p # 不會丟錯誤
 
             cd ~/Desktop/.gitprocess/gitprocessof$p 2>/dev/null
-            if ! [[ $? -eq 1 || $REPLY == '' ]];then     
-                    break    
+            if ! [[ $? -eq 1 || $REPLY == '' ]];then   
+                    echo "delete fail,project name non-found,choose again"
+            else
+                    break 
+
             fi
 
+           
             
-            echo "delete fail,project name non-found,choose again"
         fi
     done
     echo "delete process finished"
+    return
 }
 delete

@@ -6,7 +6,8 @@ function back () {
     return 
 }
 function do_pull () {
-
+    local cond
+    local noprev=0
     read -p "proj name: "
 
     back $REPLY
@@ -29,10 +30,31 @@ function do_pull () {
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
         do
             pull $i "auto"
+            cond=$?
+            if [[ $cond -eq 1 ]];then
+                echo "$i pull failed"
+            elif [[ $cond -eq 87 ]];then
+                noprev=1
+            else 
+                echo "$i pull success"
+            fi
         done
+
+        if [[ $noprev -eq 1 ]];then 
+            exit 87
+        fi
     else
             pull $REPLY "normal"
+            cond=$?
+            if [[ $cond -eq 1 ]];then
+               exit 1
+            elif [[ $cond -eq 87 ]];then 
+               exit 87
+            else
+               echo "$REPLY pull success"
+            fi
     fi
+    return 
 }
 function pull () {
 
@@ -63,7 +85,7 @@ function pull () {
     elif [[ ${pullmode} == "auto" && "${info[3]}" == '_nobranch' ]];then
     #在if 判斷式中一個變數中有空格在錢錢符號外圍要加上雙引號
 
-        exit 87
+        return 87
 
     else
 
@@ -93,5 +115,6 @@ function pull () {
     tochange=$(grep "prevt:" ginfo_$1.txt | cut -c7-)
 
     sed -i '' "/prevt:/s/$tochange/${tarbranch}/" ginfo_$1.txt
+    return 
 }
 do_pull

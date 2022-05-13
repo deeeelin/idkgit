@@ -23,15 +23,15 @@ Here1234
 }
 function do_push () {
     chmod +x gitpush.bash
-    ./gitpush.bash
+    ./gitpush.bash "push"
     local cond=$?
 
     if [[ $cond -eq 87 ]];then
-        echo "$i push failed" 
+        echo "push failed" 
         echo "no previous reference for auto"
 
     elif [[ $cond -eq 1 ]];then
-        echo "$REPLY push failed" 
+        echo "push failed" 
         return
     elif [[ $cond -eq 88 ]];then
         echo "back to mode"
@@ -44,8 +44,8 @@ function do_push () {
 }
 function do_pull () {
 
-    chmod +x gitpull.bash
-    ./gitpull.bash
+    chmod +x gitpush.bash
+    ./gitpush.bash "pull"
 
     local cond=$?
 
@@ -97,23 +97,28 @@ function do_clone () {
     return
 }
 function do_create () {
-
+    local cond
     chmod +x gitsetting.bash
     ./gitsetting.bash
-    if [[ $? -eq 88 ]];then
+    cond=$?
+    if [[ $cond -eq 88 ]];then
         echo "back to mode"
-    elif [[ $? -eq 1 ]];then
+    elif [[ $cond -eq 1 ]];then
         echo "create failed"
     fi
     return 
 
 }
 function do_delete () {  #little error
+    
+    local cond
     chmod +x gitdelete.bash
     ./gitdelete.bash
-    if [[ $? -eq 88 ]];then
+    cond=$?
+   
+    if [[ $cond -eq 88 ]];then
         echo "back to mode"
-    elif [[ $? -eq 1 ]];then
+    elif [[ $cond -eq 1 ]];then
         echo "delete failed"
     fi
     return  

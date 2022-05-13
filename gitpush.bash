@@ -1,11 +1,18 @@
 #! /bin/bash
+if [[ $1 == "push" ]];then
+    mode="push"
+else
+    mode="pull"
+fi
 function back () {
     if [[ $1 == "back" ]];then
         exit 88
     fi
     return 
 }
-function do_push () {
+function do_pp () {
+    local cond
+    local noprev=0
     read -p "proj name: " 
     back $REPLY
     cd ~/Desktop/.gitprocess/gitprocessof$REPLY 2>/dev/null
@@ -17,32 +24,42 @@ function do_push () {
         cd ~/Desktop/.gitprocess/gitprocessof$REPLY 2>/dev/null
     done
 
-    echo "start pushing..."
+    echo "start ${mode}ing..."
 
     echo "your choice : $REPLY"
 
     if [[ "$REPLY" == 'all' ]]; then #not yet apply auto to own and tar branch
 
         for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
-            do
-            push $i "auto"
-            if [[ $? -eq 1 ]];then
-                echo "$i push failed"
+        do
+            pp $i "auto"
+            cond=$?
+            if [[ $cond -eq 1 ]];then
+                echo "$i ${mode} failed"
+            elif [[ $cond -eq 87 ]];then
+                noprev=1
             else 
-                echo "$i push success"
+                echo "$i ${mode} success"
             fi
-            done
+        done
+        if [[ $noprev -eq 1 ]];then 
+            exit 87
+        fi
 
     else
-            push $REPLY "normal"  
-            if [[ $? -eq 1 ]];then
+            pp $REPLY "normal"  
+            cond=$?
+            if [[ $cond -eq 1 ]];then
                exit 1
+            elif [[ $cond -eq 87 ]];then 
+               exit 87
             else
-               echo "$REPLY push success"
+               echo "$REPLY ${mode} success"
             fi       
     fi
+    return 
 }
-function push () {
+function pp () {
 
     declare -a info
 
@@ -58,18 +75,18 @@ function push () {
     info[4]=$(grep "prevt:" ginfo_$1.txt| cut -c7-)
 
 
-    pushmode=$2
+    actmode=$2
 
     cd ${info[2]}
 
-    if [[ ${pushmode} == "auto" && "${info[3]}" != '_nobranch' ]] ;then
+    if [[ ${actmode} == "auto" && "${info[3]}" != '_nobranch' ]] ;then
 
         ownbranch=${info[3]}
         tarbranch=${info[4]}
 
-    elif [[ ${pushmode} == "auto" && "${info[3]}" == '_nobranch' ]];then
+    elif [[ ${actmode} == "auto" && "${info[3]}" == '_nobranch' ]];then
 
-        exit 87
+        return 87
 
     else
         read -p "own branch: " ownbranch
@@ -87,15 +104,20 @@ function push () {
 
     git add --all 
      #every git push will change DS store ,so you can pull cand push without changing
+    if [[ ${mode} == "push" ]];then
 
-    git commit -m "commit on $(date)" 
+        git commit -m "commit on $(date)" 
     
-    if [[ $? -eq 1 ]];then 
-        return 1
+        if [[ $? -eq 1 ]];then 
+             return 1
+        fi
     fi
+    
     git pull ${info[1]} $tarbranch 
-
-    git push ${info[1]} ${ownbranch}:${tarbranch}
+    
+    if [[ ${mode} == "push" ]];then
+        git push ${info[1]} ${ownbranch}:${tarbranch}
+    fi
 
     cd ~/Desktop/.gitprocess/gitprocessof$1/
 
@@ -106,5 +128,6 @@ function push () {
     tochange=$(grep "prevt:" ginfo_$1.txt | cut -c7-)
 
     sed -i '' "/prevt:/s/$tochange/${tarbranch}/" ginfo_$1.txt
+    return
 }
-do_push
+do_pp

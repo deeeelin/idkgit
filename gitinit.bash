@@ -33,5 +33,6 @@ function init () {
     set -e
     git commit -m "first commit on $(date)"
     echo  "finished git initialize and commit"
+    return 
 }
 init

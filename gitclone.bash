@@ -44,6 +44,7 @@ function clone () {
     done
 
     echo "finished cloning"
+    return 
 
 }
 clone
