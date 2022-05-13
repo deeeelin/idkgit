@@ -1,3 +1,4 @@
+function delete () { 
     declare -a dlist
     PS3="proj name: "
 
@@ -35,4 +36,5 @@
         fi
     done
     echo "delete process finished"
-    
+}
+delete

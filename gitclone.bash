@@ -5,43 +5,46 @@ function back () {
     fi
     return 
 }
-read -p "clone where? " url 
-back ${url}
-PS3="make directory ?"
-select r in yes no
-do
-    if [[ $r == "yes" ]];then
-        read -p "what name? " name ; back ${name}
-        read -p "under where? " fdir ; back ${fdir}
-        cd $fdir 2>/dev/null
-        while [[ $fdir == '' || $? -eq 1 ]]
-        do
-            echo "wrong path"
+function clone () {
+    read -p "clone where? " url 
+    back ${url}
+    PS3="make directory ?"
+    select r in yes no
+    do
+        if [[ $r == "yes" ]];then
+            read -p "what name? " name ; back ${name}
             read -p "under where? " fdir ; back ${fdir}
             cd $fdir 2>/dev/null
-        done
-        mkdir ${name}
-        echo "start cloning......"
-        set -e
-        git clone $url "$fdir/$name/"
-        break
-    else 
-        read -p "save where" fdir ; back ${fdir}
-        cd $fdir
-        while [[ $fdir == '' || $? -eq 1 ]]
-        do
-            echo "wrong path"
-            read -p "save where? " fdir ; back ${fdir}
+            while [[ $fdir == '' || $? -eq 1 ]]
+            do
+                echo "wrong path"
+                read -p "under where? " fdir ; back ${fdir}
+                cd $fdir 2>/dev/null
+            done
+            mkdir ${name}
+            echo "start cloning......"
+            set -e
+            git clone $url "$fdir/$name/"
+            break
+        else 
+            read -p "save where" fdir ; back ${fdir}
             cd $fdir
-        done
-        echo "start cloning......"
-        set -e
-        git clone "$url" "$fdir"  #error
-        break
+            while [[ $fdir == '' || $? -eq 1 ]]
+            do
+                echo "wrong path"
+                read -p "save where? " fdir ; back ${fdir}
+                cd $fdir
+            done
+            echo "start cloning......"
+            set -e
+            git clone "$url" "$fdir"  #error
+            break
 
-    fi
-done
+        fi
+    done
 
-echo "finished cloning"
+    echo "finished cloning"
 
+}
+clone
   

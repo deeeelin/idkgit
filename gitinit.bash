@@ -5,30 +5,33 @@ function back () {
     fi
     return 
 }
-read -p "give me a path: " route
+function init () {
+    read -p "give me a path: " route
 
 
-echo "start initializing....."
+    echo "start initializing....."
 
-while ! [[ -n ${route} ]] 
-do
+    while ! [[ -n ${route} ]] 
+    do
+            echo "path wrong do again"
+            read -p "give me a path: " route
+    done
+    back ${route}
+    cd ${route} 2>/dev/null
+    while [[ $? -eq 1 ]];
+    do
         echo "path wrong do again"
         read -p "give me a path: " route
-done
-back ${route}
-cd ${route} 2>/dev/null
-while [[ $? -eq 1 ]];
-do
-    echo "path wrong do again"
-    read -p "give me a path: " route
-    back ${route}
-    
-    cd ${route} 2>/dev/null
-done
+        back ${route}
+        
+        cd ${route} 2>/dev/null
+    done
 
-git init
+    git init
 
-git add  --all 
-set -e
-git commit -m "first commit on $(date)"
-echo  "finished git initialize and commit"
+    git add  --all 
+    set -e
+    git commit -m "first commit on $(date)"
+    echo  "finished git initialize and commit"
+}
+init

@@ -21,97 +21,50 @@ Here1234
 
     echo "git start executed"
 }
-
 function do_push () {
+    chmod +x gitpush.bash
+    ./gitpush.bash
+    local cond=$?
 
-    read -p "proj name: " ; 
-    if [[ $REPLY == "back" ]]; then 
-    return 
-    fi
-    echo "start pushing..."
+    if [[ $cond -eq 87 ]];then
+        echo "$i push failed" 
+        echo "no previous reference for auto"
 
-    echo "your choice : $REPLY"
-
-    if [[ "$REPLY" == 'all' ]]; then #not yet apply auto to own and tar branch
-
-        for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
-
-            do
-            chmod +x gitpush.bash 
-            ./gitpush.bash $i "auto"
-            local cond=$?
-            #echo "this is fucking $cond"
-            if [[ $cond -eq 87 ]];then
-                echo "$i push failed" 
-                echo "no previous reference for auto"
-            elif [[ $cond -eq 1 ]];then
-                echo "$i push failed"
-            fi
-            done
-
+    elif [[ $cond -eq 1 ]];then
+        echo "$REPLY push failed" 
+        return
+    elif [[ $cond -eq 88 ]];then
+        echo "back to mode"
+        return
     else
-            chmod +x gitpush.bash 
-            ./gitpush.bash $REPLY "normal"         
-            cond=$?
-
-            if [[ $cond -eq 1 ]];then
-                echo "$REPLY push failed" 
-                return
-            elif [[ $cond -eq 88 ]];then
-                return
-            fi
+        echo "push process finished" 
     fi
 
-    echo "push process finished"
-    
     return
 }
 function do_pull () {
-    read -p "proj name: "
 
-    if [[ $REPLY == "back" ]]; then 
-    return 
-    fi
+    chmod +x gitpull.bash
+    ./gitpull.bash
 
-    echo "start pulling..."
-    echo "your choice : $REPLY"
+    local cond=$?
 
-    if [[ $REPLY == 'all' ]];then
+    if [[ $cond -eq 87 ]];then
 
-        for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
-            
-            do
-            chmod +x gitpull.bash 
-            ./gitpull.bash $i "auto"
-            local cond=$?
-            #echo "this is fucking $cond"
-            
-            if [[ $cond -eq 87 ]];then
-                echo "$i pull failed" 
-                echo "no previous reference for auto"
-            elif [[ $cond -eq 1 ]];then
-                echo "$i pull failed" 
-            fi
+        echo "$i pull failed" 
+        echo "no previous reference for auto"
 
-            done
+    elif [[ $cond -eq 1 ]];then
 
-    else
-
-            chmod +x gitpull.bash 
-            ./gitpull.bash $REPLY "normal"
-            cond=$?
-
-            if [[ $cond -eq 1 ]];then
-                echo "$REPLY pull failed" 
-                return
-            elif [[ $cond -eq 88 ]];then
-                return
-            fi
-            
+        echo "$REPLY pull failed" 
+        return
+    elif [[ $cond -eq 88 ]];then
+        return
+    else 
+        echo "pull process finished"
 
     fi
 
-    echo "pull process finished"
     return
 }
 function do_init () {
@@ -155,7 +108,7 @@ function do_create () {
     return 
 
 }
-function delete () {  #error
+function do_delete () {  #little error
     chmod +x gitdelete.bash
     ./gitdelete.bash
     if [[ $? -eq 88 ]];then
@@ -166,6 +119,13 @@ function delete () {  #error
     return  
 
 }
+function do_list () {
+
+    chmod +x gitlist.bash
+    ./gitlist.bash
+    
+    return
+}
 function jumpy () {
 
     declare -a arr
@@ -173,9 +133,8 @@ function jumpy () {
     cd ~/Desktop/.gitprocess/
     arr=$(find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
 
-    arr+=" back"
-    echo "${arr[0]}"
-    #echo ${arr[@]}
+    arr+=" (back_to_mode)"
+
     PS3='choose:'
 
     select c in ${arr[@]}
@@ -217,9 +176,9 @@ function main (){
 
             pull)  do_pull ;;
 
-            delete) delete ;;
+            delete) do_delete ;;
 
-            list) list ;;  
+            list) do_list ;;  
 
             #  1. p puts in the last one because you only need to show the last result
             #  2. when you use find . -name 'xxx*',you need to add  '' orelse 
@@ -228,8 +187,8 @@ function main (){
 
             jump) jumpy; 
             if [[ $? -eq 0 ]];then 
-                break
-            fi
+            break 
+            fi 
             ;;
 
             out) cd ~ ; break ;;
@@ -241,8 +200,6 @@ function main (){
     done 
     echo "idk closed"
 }
-
-        
 
 #execute
 start
