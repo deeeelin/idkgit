@@ -28,6 +28,8 @@ function do_push () {
             push $i "auto"
             if [[ $? -eq 1 ]];then
                 echo "$i push failed"
+            else 
+                echo "$i push success"
             fi
             done
 
@@ -35,6 +37,8 @@ function do_push () {
             push $REPLY "normal"  
             if [[ $? -eq 1 ]];then
                exit 1
+            else
+               echo "$REPLY push success"
             fi       
     fi
 }
