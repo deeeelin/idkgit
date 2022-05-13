@@ -1,6 +1,4 @@
 #! /bin/bash
-
-
 function back () {
     if [[ $1 == "back" ]];then
         exit 88
@@ -128,6 +126,7 @@ function pp () {
     sed -i '' "/prevt:/s/$tochange/${tarbranch}/" ginfo_$1.txt
     return
 }
+
 if [[ $1 == "push" ]];then
     mode="push"
 else
