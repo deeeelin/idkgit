@@ -27,13 +27,14 @@ function delete () {
 
         else
             
-            echo "start deleting..." 
-            rm -rf dir gitprocessof$p 
             cd ${IDKDIR}/gitprocess/gitprocessof$p 2>/dev/null
 
             if [[ $? -eq 1 || $REPLY == '' ]];then   
                 echo "delete fail,project name non-found,choose again"
             else
+                echo "start deleting..." 
+                cd ${IDKDIR}/gitprocess/
+                rm -rf dir gitprocessof$p 
                 break 
             fi
         fi

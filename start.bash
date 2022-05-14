@@ -135,23 +135,26 @@ function do_list () {
 }
 function jumpy () {
 
-    cd ${IDKDIR}/gitprocess/
+    cd ${IDKDIR}/gitprocess/ 2>/dev/null
 
     declare -a arr
     arr=$(find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
-    arr+=" (back_to_mode)"
-
+    if [[ -n arr ]];then
+        echo "nothing to jump"
+        return 2
+    fi
     PS3='choose:'
 
     select c in ${arr[@]}
     do
-        echo "you chose : $c"
 
-        if [[ $c == "(back_to_mode)" ]];then 
+        if [[ $REPLY == "b/" ]];then 
+            echo "back to mode"
             return 1
         fi
 
-        cd cd ${IDKDIR}/gitprocess/gitprocessof$c/ 2>/dev/null
+        echo "you chose : $c"
+        cd ${IDKDIR}/gitprocess/gitprocessof$c/ 2>/dev/null
 
         if [[ $? -eq 0 ]];then
 

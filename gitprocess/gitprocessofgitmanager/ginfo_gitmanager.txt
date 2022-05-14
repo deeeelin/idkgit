@@ -1,5 +1,0 @@
-url:https://github.com/deeeelin/idkgit.git
-repn:idkgit
-route:/Users/derek/Desktop/coding/bash/selfproject/gitmanager/
-prevo:_nobranch
-prevt:_nobranch
