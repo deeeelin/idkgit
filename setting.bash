@@ -1,6 +1,6 @@
 #! /bin/bash
 function back () {
-    if [[ $1 == "back" ]];then
+    if [[ $1 == "b/" ]];then
         exit 88
     fi
     return 
@@ -20,7 +20,7 @@ function check_route () {
 }
 function check_name () {
 
-    cd ~/Desktop/.gitprocess/gitprocessof${name} 2>/dev/null
+    cd ${IDKDIR}/gitprocess/gitprocessof${name} 2>/dev/null
 
     if [[ $? -eq 0 ]];then
        echo "project existed cannot create !,go delete to create"
@@ -50,9 +50,9 @@ function read_info () {
 function create_info () {
 
     #mkdir
-    cd ~/Desktop/   
-    mkdir -p .gitprocess
-    cd .gitprocess/ 
+    cd ${IDKDIR}
+    mkdir -p gitprocess
+    cd gitprocess/ 
     mkdir -p gitprocessof${name}
     cd gitprocessof${name}/
 

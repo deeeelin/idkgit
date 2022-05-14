@@ -103,7 +103,7 @@ function do_setcom () {
     echo "recent commit message:"
     cat commitmessage.txt
     read -p "enter your commit message,type 'back' to cancel: " m
-    if [[ $m == "back" ]];then
+    if [[ $m == "b/" ]];then
         return
     fi
     echo "$m" > commitmessage.txt
@@ -135,7 +135,7 @@ function do_list () {
 }
 function jumpy () {
 
-    cd ~/Desktop/.gitprocess/
+    cd ${IDKDIR}/gitprocess/
 
     declare -a arr
     arr=$(find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
@@ -151,7 +151,7 @@ function jumpy () {
             return 1
         fi
 
-        cd ~/Desktop/.gitprocess/gitprocessof$c/ 2>/dev/null
+        cd cd ${IDKDIR}/gitprocess/gitprocessof$c/ 2>/dev/null
 
         if [[ $? -eq 0 ]];then
 
@@ -174,29 +174,29 @@ function main (){
         cd ${IDKDIR}
 
         case $REPLY in 
-            clone) do_clone ;;
+            clone | cl) do_clone ;;
 
-            init)  do_init ;;
+            init | i)  do_init ;;
 
-            create) do_create ;;
+            create | cr) do_create ;;
 
-            setcom) do_setcom ;;
+            setcom| s) do_setcom ;;
 
-            push)  do_pp "push";;
+            push | ph)  do_pp "push";;
 
-            pull)  do_pp "pull";;
+            pull | pl)  do_pp "pull";;
 
-            delete) do_delete ;;
+            delete | d) do_delete ;;
 
-            list) do_list ;;  
+            list | l) do_list ;;  
 
-            jump) jumpy; 
+            jump | j) jumpy; 
             if [[ $? -eq 0 ]];then 
             break 
             fi 
             ;;
 
-            out) cd ~ ; break ;;
+            out | o) cd ~ ; break ;;
 
             *) echo "mode not found" ;;
 

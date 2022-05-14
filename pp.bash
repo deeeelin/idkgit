@@ -1,7 +1,7 @@
 #! /bin/bash
 function back () {
 
-    if [[ $1 == "back" ]];then
+    if [[ $1 == "b/" ]];then
         exit 88
     fi
 
@@ -15,14 +15,14 @@ function do_pp () {
     read -p "proj name: " 
     back $REPLY
 
-    cd ~/Desktop/.gitprocess/gitprocessof$REPLY 2>/dev/null
+    cd ${IDKDIR}/gitprocess/gitprocessof$REPLY 2>/dev/null
 
     while [[ $? -eq 1 && $REPLY != "all" ]] 
     do 
         echo "no such proj "
         read -p "proj name: "
         back $REPLY
-        cd ~/Desktop/.gitprocess/gitprocessof$REPLY 2>/dev/null
+        cd ${IDKDIR}/gitprocess/gitprocessof$REPLY 2>/dev/null
     done
 
     echo "start ${mode}ing..."
@@ -30,7 +30,7 @@ function do_pp () {
 
     if [[ "$REPLY" == 'all' ]]; then 
 
-        for i in $(cd ~/Desktop/.gitprocess/ ; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
+        for i in $(cd ${IDKDIR}/gitprocess/; find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
         do
             pp $i "auto"
             cond=$?
@@ -67,7 +67,7 @@ function pp () {
     declare -a info
 
     set -e
-    cd ~/Desktop/.gitprocess/gitprocessof$1/ 2>/dev/null
+    cd ${IDKDIR}/gitprocess/gitprocessof$1/ 2>/dev/null
     set +e
 
     info[0]=$(grep "url:" ginfo_$1.txt | cut -c5-)
@@ -131,7 +131,7 @@ function pp () {
         git push ${info[1]} ${ownbranch}:${tarbranch}
     fi
 
-    cd ~/Desktop/.gitprocess/gitprocessof$1/
+    cd ${IDKDIR}/gitprocess/gitprocessof$1/
 
     tochange=$(grep "prevo:" ginfo_$1.txt | cut -c7-)
 

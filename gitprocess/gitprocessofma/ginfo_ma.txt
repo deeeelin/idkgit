@@ -1,0 +1,5 @@
+url:https://github.com/deeeelin/messageanalyze.git
+repn:ma
+route:/Users/derek/Desktop/coding/selfproject/message_project
+prevo:_nobranch
+prevt:_nobranch

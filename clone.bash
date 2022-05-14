@@ -1,7 +1,7 @@
 #! /bin/bash
 function back () {
 
-    if [[ $1 == "back" ]];then
+    if [[ $1 == "b/" ]];then
         exit 88
     fi
     return 
