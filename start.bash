@@ -27,7 +27,7 @@ function do_pp () {
         mode="pull"
     fi
 
-    chmod +x gitpp.bash
+    chmod +x pp.bash
     ./pp.bash ${mode}
 
     local cond=$?
