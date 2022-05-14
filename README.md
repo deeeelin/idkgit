@@ -18,6 +18,7 @@ Linux and macOS:
 git clone https://github.com/deeeelin/idkgit.git <folder path>
 <folder path>/start.bash
 ```
+and remember to restart your terminal
 
 ## Using idkgit
 
