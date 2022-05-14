@@ -1,7 +1,7 @@
 # idkgit
 
 <!--- These are examples. See https://shields.io for others or to customize this set of shields. You might want to include dependencies, project status and licence info here --->
-![GitHub repo size](https://img.shields.io/github/repo-size/scottydocs/README-template.md)
+![GitHub repo size](https://img.shields.io/github/repo-size/idkgit/README-template.md)
 ![GitHub contributors](https://img.shields.io/github/contributors/scottydocs/README-template.md)
 ![GitHub stars](https://img.shields.io/github/stars/scottydocs/README-template.md?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/scottydocs/README-template.md?style=social)
@@ -18,11 +18,11 @@ Before you begin, ensure you have met the following requirements:
 
 ## Installing <project_name>
 
-To install <project_name>, follow these steps:
+To install idkgit follow these steps:
 
 Linux and macOS:
 ```
-git clone <folder path>
+git clone https://github.com/deeeelin/idkgit.git <folder path>
 <folder path>/start.bash
 ```
 
