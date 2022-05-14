@@ -106,7 +106,7 @@ function do_setcom () {
     if [[ $m == "back" ]];then
         return
     fi
-    echo -n "$m" > commitmessage.txt
+    echo "$m" > commitmessage.txt
     echo "message setted"
     return
 }

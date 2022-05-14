@@ -112,7 +112,7 @@ function pp () {
         read t<commitmessage.txt
         cd ${info[2]}
         
-        if [[ -n t && t != $'\n' ]];then
+        if [[ -n t && ${#t} -gt 0 ]];then
              git commit -m "$t , commit on $(date)" 
              cond=$?
         else
