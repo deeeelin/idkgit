@@ -12,13 +12,12 @@ function start () {
     export IDKDIR="$(dirname $0)"
 
 Here1234
-    cd ~
-    chmod +x ~/.bash_profile
-    . ./.bash_profile
-    
+    echo "please reopen your terminal,and use 'idk' to execute"
+    exit 0
+
     fi
 
-    echo "git start executed"
+    echo "idkgit executed"
 }
 function do_pp () {
 
@@ -29,7 +28,7 @@ function do_pp () {
     fi
 
     chmod +x gitpp.bash
-    ./gitpp.bash ${mode}
+    ./pp.bash ${mode}
 
     local cond=$?
 
@@ -51,8 +50,8 @@ function do_pp () {
 }
 function do_init () {
 
-    chmod +x gitinit.bash
-    ./gitinit.bash
+    chmod +x init.bash
+    ./init.bash
 
     cond=$?
 
@@ -68,8 +67,8 @@ function do_init () {
 }
 function do_clone () {
 
-    chmod +x gitclone.bash
-    ./gitclone.bash
+    chmod +x clone.bash
+    ./clone.bash
 
     cond=$?
 
@@ -87,8 +86,8 @@ function do_create () {
 
     local cond
 
-    chmod +x gitsetting.bash
-    ./gitsetting.bash
+    chmod +x setting.bash
+    ./setting.bash
 
     cond=$?
 
@@ -101,7 +100,12 @@ function do_create () {
 
 }
 function do_setcom () {
-    read -p "enter your commit message: " m
+    echo "recent commit message:"
+    cat commitmessage.txt
+    read -p "enter your commit message,type 'back' to cancel: " m
+    if [[ $m == "back" ]];then
+        return
+    fi
     echo "$m" > commitmessage.txt
     echo "message setted"
     return
@@ -110,8 +114,8 @@ function do_delete () {
     
     local cond
 
-    chmod +x gitdelete.bash
-    ./gitdelete.bash
+    chmod +x delete.bash
+    ./delete.bash
     cond=$?
    
     if [[ $cond -eq 88 ]];then
@@ -124,8 +128,8 @@ function do_delete () {
 }
 function do_list () {
 
-    chmod +x gitlist.bash
-    ./gitlist.bash
+    chmod +x list.bash
+    ./list.bash
     
     return
 }
