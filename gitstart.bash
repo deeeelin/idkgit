@@ -12,9 +12,9 @@ function start () {
     export IDKDIR="$(dirname $0)"
 
 Here1234
-
+    cd ~
     chmod +x ~/.bash_profile
-    ~/.bash_profile
+    . ./.bash_profile
     
     fi
 
@@ -100,6 +100,12 @@ function do_create () {
     return 
 
 }
+function do_setcom () {
+    read -p "enter your commit message: " m
+    echo "$m" > commitmessage.txt
+    echo "message setted"
+    return
+}
 function do_delete () {  
     
     local cond
@@ -169,6 +175,8 @@ function main (){
             init)  do_init ;;
 
             create) do_create ;;
+
+            setcom) do_setcom ;;
 
             push)  do_pp "push";;
 

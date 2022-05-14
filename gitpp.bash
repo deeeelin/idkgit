@@ -107,10 +107,20 @@ function pp () {
     git add --all 
      #every git push will change DS store ,so you can pull cand push without changing
     if [[ ${mode} == "push" ]];then
-
-        git commit -m "commit on $(date)" 
+        cd $IDKDIR
+        IFS=
+        read t<commitmessage.txt
+        cd ${info[2]}
+        
+        if [[ -n t ]];then
+             git commit -m "$t , commit on $(date)" 
+             cond=$?
+        else
+            git commit -m "commit on $(date)"
+             cond=$?
+        fi 
     
-        if [[ $? -eq 1 ]];then 
+        if [[ $cond -eq 1 ]];then 
              return 1
         fi
     fi
