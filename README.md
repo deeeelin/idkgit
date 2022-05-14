@@ -9,7 +9,7 @@ Before you begin, ensure you have met the following requirements:
 * You have a `Linux/Mac` machine that is able to execute bash scripts
 * You have read the instructions for using idkgit
 
-## Installing <project_name>
+## Installing idkgit
 
 To install idkgit follow these steps:
 
