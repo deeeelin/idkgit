@@ -102,10 +102,10 @@ function pp () {
 
     git remote remove ${info[1]} 2>/dev/null
 
-    git remote add ${info[1]} ${info[0]}  2>/dev/null  
+    git remote add ${info[1]} ${info[0]}  2>/dev/null   
 
     git add --all 
-
+     
     if [[ ${mode} == "push" ]];then
         cd $IDKDIR
         IFS=
