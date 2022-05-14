@@ -102,10 +102,10 @@ function pp () {
 
     git remote remove ${info[1]} 2>/dev/null
 
-    git remote add ${info[1]} ${info[0]}  2>/dev/null   #error when remote node is exist
+    git remote add ${info[1]} ${info[0]}  2>/dev/null   
 
     git add --all 
-     #every git push will change DS store ,so you can pull cand push without changing
+     
     if [[ ${mode} == "push" ]];then
         cd $IDKDIR
         IFS=
