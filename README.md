@@ -2,14 +2,14 @@
 
 idkgit is a tool that allows users of macOS/Linux to conveniently do git actions to thier projects.
 
-## Prerequisites
+## Requirements
 
 Before you begin, ensure you have met the following requirements:
 
 * You have a `Linux/Mac` machine that is able to execute bash scripts
 * You have read the instructions for using idkgit
 
-## Installing idkgit
+## How to install idkgit
 
 To install idkgit follow these steps:
 
@@ -20,7 +20,7 @@ git clone https://github.com/deeeelin/idkgit.git <folder path>
 ```
 and remember to restart your terminal
 
-## Using idkgit
+## How to use idkgit
 
 Enter `idk` to execute idkgit,and you will be in "select mode session".
 
@@ -49,25 +49,25 @@ In select mode session , you can enter:
 
 ----inside all mode mentioned above ,enter `back` to jump back to "select mode session"-----
 
-## Contributing to idkgit
+## Very welcome to make contributes to idkgit ,or contact me to provide recommends for this project,very appreciate
 
-To contribute to idkgit:
+To contribute to this project:
 
 1. Fork this repository.
-2. Create a branch
-3. Make your changes and commit them
-4. Push to the original branch
-5. Create the pull request.
+2. Create branch
+3. Make changes and commit them
+4. Push to your github
+5. Create pull request.
 6. Send a message to me via email
 
-## Contributors
+## List of contributors
 
 * [@deeeelin](https://github.com/deeeelin) 
 
-## Contact
+## Contact me
 
 If you want to contact me you can reach me at <dereklin100503@gmail.com>
 
-## License
+## MIT License
 
 This project uses the following license: [MIT License](https://choosealicense.com/licenses/mit/#).
