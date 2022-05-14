@@ -25,16 +25,42 @@ To install <project_name>, follow these steps:
 
 Linux and macOS:
 ```
-<install_command>
+git clone <folder path>
+<folder path>/start.bash
 ```
 
 ## Using idkgit
 
-To use idkgit, follow these steps:
 
-```
-<usage_example>
-```
+Enter `idk` to execute idkgit,and you will be in "select mode session".
+
+Select mode , you can enter:
+
+`list` or `l` to see current project that idkgit is tracking
+
+`create` or `cr` to make idkgit track a project your working
+
+`delete` or `d` to cancel tracking a project
+
+`push` or `ph` to push a project , `pull` or `pl` to pull a project:
+ 
+   if your "proj name" is `all` then it will automaitcally push/pull all projects that idkgit is tracking,and 
+   the commit message will be the time of committing in default.
+ 
+`init` or `i` to initialize git to your project
+
+`clone` or `cl` to clone repositories
+
+`jump` or `j` to change to one of a directory that idkgit is tracking,and automatically close idkgit
+
+`setcom` or `s` to set commit message for pushing
+
+`out` or `o` to close idkgit (only works when you're in select mode session).
+
+----inside all mode mentioned above ,enter `back` to jump back to "select mode session"-----
+
+
+
 
 Add run commands and examples you think users will find useful. Provide an options reference for bonus points!
 
