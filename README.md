@@ -14,11 +14,21 @@ Before you begin, ensure you have met the following requirements:
 To install idkgit follow these steps:
 
 Linux and macOS:
+
+1.
 ```
 git clone https://github.com/deeeelin/idkgit.git <folder path>
+```
+
+2.
+enter `$SHLVL` in terminal and make sure the output is 1 , else restart terminal 
+
+3.
+```
 <folder path>/start.bash
 ```
-and remember to restart your terminal
+4.
+restart your terminal
 
 ## How to use idkgit
 
@@ -47,7 +57,7 @@ In select mode session , you can enter:
 
 `out` or `o` to close idkgit (only works when you're in select mode session).
 
-----inside all mode mentioned above ,enter `back` to jump back to "select mode session"-----
+---inside all mode mentioned above ,enter `b/` to jump back to "select mode session"-----
 
 ## Very welcome to make contributes to idkgit ,or contact me to provide recommends for this project,very appreciate
 

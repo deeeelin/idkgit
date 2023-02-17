@@ -6,25 +6,49 @@ function back () {
     fi
     return 
 }
+function check_name () {
+    read -p "directory name of the cloned repository : " name ; back ${name}
+
+    
+    while [[ ${name} == ''  ]]
+    do
+       echo "error , name invalid !"
+       back ${name}
+       read -p "directory name of the cloned repository : " name ; back ${name}
+    done
+
+    return 
+}
+function check_url () {
+    
+    read -p "clone repository url : " url ; back ${url}
+
+    while [[ ${url} == ''  ]]
+    do
+       echo "error , can't be empty !"
+       read -p "clone repository url : " url ; back ${url}
+    done
+    return 
+
+}
 function clone () {
 
-    read -p "clone where? " url 
-    back ${url}
+    check_url
 
     PS3="make directory ?"
     select r in yes no
     do
         if [[ $r == "yes" ]];then
 
-            read -p "what name? " name ; back ${name}
+            check_name
 
-            read -p "under where? " fdir ; back ${fdir}
+            read -p "clone under which directory (enter directory path):  " fdir ; back ${fdir}
             cd $fdir 2>/dev/null
 
             while [[ $fdir == '' || $? -eq 1 ]]
             do
                 echo "wrong path"
-                read -p "under where? " fdir ; back ${fdir}
+                read -p "clone under which directory (enter directory path):  " fdir ; back ${fdir}
                 cd $fdir 2>/dev/null
             done
 
@@ -36,14 +60,14 @@ function clone () {
 
             break
 
-        else 
+        elif [[ $r == "no" ]];then
 
-            read -p "save where" fdir ; back ${fdir}
+            read -p "clone repository to which directory (enter directory path) : " fdir ; back ${fdir}
             cd $fdir
             while [[ $fdir == '' || $? -eq 1 ]]
             do
                 echo "wrong path"
-                read -p "save where? " fdir ; back ${fdir}
+                read -p "clone repository to which directory (enter directory path) : " fdir ; back ${fdir}
                 cd $fdir
             done
 
@@ -52,10 +76,16 @@ function clone () {
             git clone "$url" "$fdir"  
             break
 
+        
+        elif [[ $REPLY == "b/" ]];then 
+            exit 88
+
+        else echo "invalid choice !"
+
         fi
     done
 
-    echo "finished cloning"
+    
     return 
 
 }

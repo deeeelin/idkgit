@@ -1,15 +1,12 @@
 function delete () { 
-    cd ${IDKDIR}/gitprocess/ 2>/dev/null
-    if [[ $? -eq 1 ]];then
-        echo "nothing to delete"
-        exit 0
-    fi
+    cd ${IDKDIR}/gitprocess/
+   
     declare -a dlist
     dlist=$(find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
     dlist+=" all"
     
 
-    PS3="proj name: "
+    PS3="project name: "
     select p in ${dlist}
     do
         if [[ $p == 'all' ]];then

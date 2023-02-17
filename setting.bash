@@ -7,42 +7,64 @@ function back () {
 }
 function check_route () {
 
+    read -p "please enter your project directory path : "  route ;  back ${route}
+
     cd ${route} 2>/dev/null
 
     while [[ $? -eq 1 || ${route} == '' ]]
     do
         echo "please enter valid path!!"
-        read -p "please enter your folder path (absolute path): "  route
-        back $route
+        read -p "please enter your project directory path : "  route ; back $route
         cd ${route} 2>/dev/null
     done 
     return 
 }
 function check_name () {
+    read -p "please enter your project name: " name ; back ${name}
 
     cd ${IDKDIR}/gitprocess/gitprocessof${name} 2>/dev/null
 
-    if [[ $? -eq 0 ]];then
-       echo "project existed cannot create !,go delete to create"
-       exit 88
-    fi
+    while [[ $? -eq 0 || ${name} == ''  ]]
+    do
+       echo "error , project name invalid !"
+       back ${name}
+       cd ${IDKDIR}/gitprocess/gitprocessof${name} 2>/dev/null
+    done
 
     return 
 }
+function check_rname () {
+    
+    read -p "please enter the remote repository name: " rname ; back ${rname}
+
+    while [[ ${rname} == ''  ]]
+    do
+       echo "error , can't be empty !"
+       read -p "please enter the remote repository name: " rname ; back ${rname}
+    done
+    return 
+
+}
+function check_url () {
+    
+    read -p "please enter the remote repository url: " url ; back ${url}
+
+    while [[ ${url} == ''  ]]
+    do
+       echo "error , can't be empty !"
+       read -p "please enter the remote repository url: " url ; back ${url}
+    done
+    return 
+
+}
 function read_info () {
 
-    read -p "please enter the remote repository url: " url
-    back ${url}
+    check_url
 
-    read -p "please enter repository name: " rname
-    back ${rname}
+    check_rname
 
-    read -p "please enter your folder path (absolute path): "  route
-    back ${route}
     check_route
 
-    read -p "please enter your project name: " name
-    back ${name}
     check_name
 
     return
@@ -50,9 +72,8 @@ function read_info () {
 function create_info () {
 
     #mkdir
-    cd ${IDKDIR}
-    mkdir -p gitprocess
-    cd gitprocess/ 
+    cd ${IDKDIR}/gitprocess/
+
     mkdir -p gitprocessof${name}
     cd gitprocessof${name}/
 

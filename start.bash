@@ -1,10 +1,12 @@
 #! /bin/bash 
 
-function start () {
+function start () {  # make sure SHLVL is 1 and execute start.bash exit and open terminal again 
 
     if [[ $SHLVL -ne 1 ]]; then
 
     echo "setting alias...." 
+
+    cd ~
 
     cat >>.bash_profile << Here1234
 
@@ -19,7 +21,7 @@ Here1234
 
     echo "idkgit executed"
 }
-function do_pp () {
+function do_pp () { #
 
     if [[ $1 == "push" ]];then
         mode="push"
@@ -27,28 +29,25 @@ function do_pp () {
         mode="pull"
     fi
 
-    chmod +x pp.bash
-    ./pp.bash ${mode}
+    chmod +x do_pp.bash
+    ./do_pp.bash ${mode}
 
     local cond=$?
 
-    if [[ $cond -eq 87 ]];then
-        echo "some ${mode} failed" 
-        echo "error: no previous reference "
-
-    elif [[ $cond -eq 1 ]];then
-        echo "${mode} failed" 
-        return
-    elif [[ $cond -eq 88 ]];then
+    
+    if [[ $cond -eq 88 ]];then
         echo "back to mode"
         return
-    else
+    elif [[ $cond -eq 0 ]];then
         echo "${mode} process finished" 
+    
+    else 
+        echo "error"
     fi
 
     return
 }
-function do_init () {
+function do_init () { #
 
     chmod +x init.bash
     ./init.bash
@@ -65,24 +64,25 @@ function do_init () {
 
     return
 }
-function do_clone () {
+function do_clone () { #
 
     chmod +x clone.bash
     ./clone.bash
 
     cond=$?
 
-    if [[ ${cond} -eq 1 ]];then
-        echo "clone failed"
+    if [[ ${cond} -eq 0 ]];then
+        echo "clone success"
+        
     elif [[ ${cond} -eq 88 ]];then
         echo "backed to mode"
     else
-        echo "clone sucess"
+        echo "clone failed"
     fi
     
     return
 }
-function do_create () {
+function do_create () { #
 
     local cond
 
@@ -93,16 +93,18 @@ function do_create () {
 
     if [[ $cond -eq 88 ]];then
         echo "back to mode"
-    elif [[ $cond -eq 1 ]];then
-        echo "create failed"
+    elif [[ $cond -eq 0 ]];then
+        echo "create done"
+    else  echo "create failed"
     fi
+
     return 
 
 }
-function do_setcom () {
+function do_setcom () { #
     echo "recent commit message:"
     cat commitmessage.txt
-    read -p "enter your commit message,type 'back' to cancel: " m
+    read -p "enter your commit message,type 'b/' to cancel: " m
     if [[ $m == "b/" ]];then
         return
     fi
@@ -110,7 +112,7 @@ function do_setcom () {
     echo "message setted"
     return
 }
-function do_delete () {  
+function do_delete () {  #
     
     local cond
 
@@ -126,23 +128,27 @@ function do_delete () {
     return  
 
 }
-function do_list () {
+function do_list () { #
 
     chmod +x list.bash
     ./list.bash
     
     return
 }
-function jumpy () {
-
+function jumpy () { #
+    
     cd ${IDKDIR}/gitprocess/ 2>/dev/null
 
     declare -a arr
     arr=$(find . -name 'gitprocessof*'| sed -e 's/^..//' -e 's/gitprocessof//' -e 's/.bash//p')
-    if [[ -n arr ]];then
+    if [[ ! -n arr || ${arr[@]} == ''  ]];then
         echo "nothing to jump"
-        return 2
+        return 0
+
+    else echo ${arr[@]}
+
     fi
+    
     PS3='choose:'
 
     select c in ${arr[@]}
@@ -150,23 +156,30 @@ function jumpy () {
 
         if [[ $REPLY == "b/" ]];then 
             echo "back to mode"
-            return 1
+            return 0
         fi
 
-        echo "you chose : $c"
-        cd ${IDKDIR}/gitprocess/gitprocessof$c/ 2>/dev/null
+        if [[  ${arr[@]}  =~  ${c}  ]];then
+            echo "you chose : $c"
+            cd ${IDKDIR}/gitprocess/gitprocessof$c/ 2>/dev/null
 
-        if [[ $? -eq 0 ]];then
+            if [[ $? -eq 0 ]];then
 
-            cd $(grep "route:" ginfo_$c.txt| cut -c7-) 
-            echo "jumped"
-            break 2
+                cd $(grep "route:" ginfo_$c.txt| cut -c7-) 
+                echo "jumped"
+                break
+
+            else echo "input invalid,please choose again"
+
+            fi
+        else 
+           echo " invalid select number "
         fi
 
-        echo "input invalid,please choose again"
+        
     done
 
-    return 0
+    return 2
 
 }
 
@@ -193,8 +206,8 @@ function main (){
 
             list | l) do_list ;;  
 
-            jump | j) jumpy; 
-            if [[ $? -eq 0 ]];then 
+            jump | j) jumpy;
+            if [[ $? -eq 2 ]];then 
             break 
             fi 
             ;;

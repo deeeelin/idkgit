@@ -1,4 +1,5 @@
 #! /bin/bash
+
 function back () {
 
     if [[ $1 == "b/" ]];then
@@ -7,36 +8,26 @@ function back () {
     return 
 }
 function init () {
-
-    read -p "give me a path: " route
+    set +e
+    read -p "Directory path : " route ; back ${route}
 
     echo "start initializing....."
 
-    while ! [[ -n ${route} ]] 
-    do
-            echo "path wrong do again"
-            read -p "give me a path: " route
-    done
-
-    back ${route}
     cd ${route} 2>/dev/null
 
-    while [[ $? -eq 1 ]];
+    while [[ $? -eq 1 || ! -n ${route} ]];
     do
         echo "path wrong do again"
-        read -p "give me a path: " route
+        read -p "Directory path : " route
         back ${route}
         
         cd ${route} 2>/dev/null
     done
+    set -e
 
     git init
-    git add  --all 
 
-    set -e
-    git commit -m "first commit on $(date)"
-
-    echo  "finished git initialize and commit"
+    echo  "Finished git initialize "
     
     return 
 }
