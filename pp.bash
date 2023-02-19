@@ -49,15 +49,18 @@ function pp () {
     fi
     set +e
     git checkout $ownbranch
-
+    
+    
     git remote remove ${info[1]}
     set -e
 
     git remote add ${info[1]} ${info[0]} 
 
-    git add --all 
+    
      
     if [[ $1 == "push" ]];then
+        git add --all 
+
         cd $IDKDIR
         IFS=
         read t<commitmessage.txt
@@ -69,9 +72,14 @@ function pp () {
             git commit -m "commit on $(date)"
         fi 
 
-    fi
+        git push ${info[1]} ${ownbranch}:${tarbranch}
+    else
+       git pull ${info[1]} ${tarbranch}
 
-    git push ${info[1]} ${ownbranch}:${tarbranch}
+    fi
+    
+
+    
     
     cd ${IDKDIR}/gitprocess/gitprocessof$2/
 
