@@ -47,10 +47,9 @@ function pp () {
         back $tarbranch
 
     fi
-
-    git checkout $ownbranch
-    
     set +e
+    git checkout $ownbranch
+
     git remote remove ${info[1]}
     set -e
 
