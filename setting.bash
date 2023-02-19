@@ -71,7 +71,8 @@ function read_info () {
 }
 function create_info () {
 
-    #mkdir
+    cd ${IDKDIR}
+    mkdir -p gitprocess
     cd ${IDKDIR}/gitprocess/
 
     mkdir -p gitprocessof${name}
