@@ -38,26 +38,52 @@ In select mode session , you can enter:
 
 `clone` or `cl` to clone repositories
 
+![Image](./README_sources/clone.png)
+
 `init` or `i` to initialize git to your project
+
+![Image](./README_sources/init.png)
 
 `create` or `cr` to make idkgit track a project your working
 
+![Image](./README_sources/create.png)
+
 `list` or `l` to see current project that idkgit is tracking
+
+![Image](./README_sources/list.png)
 
 `setcom` or `s` to set commit message for pushing
 
+![Image](./README_sources/setcom.png)
+
 `push` or `ph` to push a project , `pull` or `pl` to pull a project:
- 
+
+![Image](./README_sources/pull_sin.png)
+
+![Image](./README_sources/push_single.png)
+
    if your "proj name" is `all` then it will automaitcally push/pull all projects that idkgit is tracking,and 
    the commit message will be the time of committing in default.
 
+![Image](./README_sources/pull_all.png)
+
+![Image](./README_sources/push_all.png)
+
 `jump` or `j` to change to one of a directory that idkgit is tracking,and automatically close idkgit
+
+![Image](./README_sources/jump.png)
 
 `delete` or `d` to cancel tracking a project
 
+![Image](./README_sources/delete.png)
+
 `out` or `o` to close idkgit (only works when you're in select mode session).
 
+![Image](./README_sources/out.png)
+
 ---inside all mode mentioned above ,enter `b/` to jump back to "select mode session"-----
+
+![Image](./README_sources/back.png)
 
 ## Very welcome to make contributes to idkgit ,or contact me to provide recommends for this project,very appreciate
 
