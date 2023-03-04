@@ -16,9 +16,11 @@ To install idkgit follow these steps:
 Linux and macOS:
 
 1.
+Clone the repo : 
 ```
 git clone https://github.com/deeeelin/idkgit.git <folder path>
 ```
+, or just download the zip file . 
 
 2.
 enter `$SHLVL` in terminal and make sure the output is 1 , else restart terminal 
