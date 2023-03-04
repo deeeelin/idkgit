@@ -23,14 +23,12 @@ git clone https://github.com/deeeelin/idkgit.git <folder path>
 , or just download the zip file . 
 
 2.
-enter `$SHLVL` in terminal and make sure the output is 1 , else restart terminal 
+Enter `$SHLVL` in terminal and make sure the output is 1 , else restart terminal 
 
 3.
-```
-<folder path>/start.bash
-```
+Execute start.bash
 4.
-restart your terminal
+Restart your terminal
 
 ## How to use idkgit
 
