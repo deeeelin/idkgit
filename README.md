@@ -6,17 +6,14 @@ idkgit is a tool that allows users of macOS/Linux to conveniently do git actions
 
 Before you begin, ensure you have met the following requirements:
 
-* You have a `Linux/Mac` machine that is able to execute bash scripts
+* You have a device that is able to execute bash scripts
 * You have read the instructions for using idkgit
 
 ## How to install idkgit
 
 To install idkgit follow these steps:
 
-Linux and macOS:
-
-1.
-Clone the repo : 
+1. Clone the repo : 
 ```
 git clone https://github.com/deeeelin/idkgit.git <folder path>
 ```
