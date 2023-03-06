@@ -29,6 +29,8 @@ git clone https://github.com/deeeelin/idkgit.git <folder path>
 
 ## How to use idkgit
 
+*Please go through the following steps by doing it on your own computer~*
+
 Enter `idk` to execute idkgit,and you will be in "select mode session".
 
 In select mode session , you can enter:
