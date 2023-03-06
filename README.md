@@ -65,11 +65,11 @@ ex : set commit message as "little updates from deeeelin"
 
 * `push` or `ph` to push a project , `pull` or `pl` to pull a project:
 
-ex : pull main branch of test1 from github to it's master branch at local
+ex : pull main branch of "test1" from github to it's master branch at local
 
 ![Image](./README_sources/pull_sin.png)
 
-ex : push master branch of test2 at local to it's main branch on github
+ex : push master branch of "test2" at local to it's main branch on github
 
 ![Image](./README_sources/push_single.png)
 
@@ -81,7 +81,7 @@ ex : push master branch of test2 at local to it's main branch on github
 
 * `jump` or `j` to change to one of a directory that idkgit is tracking,and automatically close idkgit
 
-ex : jump to directory of test2
+ex : jump to directory of "test2"
 
 ![Image](./README_sources/jump.png)
 
