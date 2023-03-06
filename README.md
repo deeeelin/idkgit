@@ -1,12 +1,12 @@
 # idkgit
 
-idkgit is a tool that allows users of macOS/Linux to conveniently do git actions to thier projects.
+idkgit is a tool that allows users with bash shell to conveniently do git actions to thier projects.
 
 ## Requirements
 
 Before you begin, ensure you have met the following requirements:
 
-* You have a device that is able to execute bash scripts
+* You have a device (recommended using mac) that is able to execute bash scripts
 * You have read the instructions for using idkgit
 
 ## How to install idkgit
