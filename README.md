@@ -2,6 +2,8 @@
 
 idkgit is a tool that allows users with bash shell to conveniently do git actions to thier projects.
 
+(Correctness of this project are only tested in macos operating system recently !)
+
 ## Requirements
 
 Before you begin, ensure you have met the following requirements:
