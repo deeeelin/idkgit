@@ -23,7 +23,7 @@ git clone https://github.com/deeeelin/idkgit.git <folder path>
 
 2. Enter `$SHLVL` in terminal and make sure the output is 1 , else restart terminal 
 
-3. Execute start.bash
+3. cd to the idkgit folder and execute start.bash
 
 4. Restart your terminal
 
